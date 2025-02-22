@@ -1,0 +1,11 @@
+<mvc:View
+    controllerName="sapbtp.controller.Wishlist"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="_IDGenPage1" title="Wishlist">
+   <!-- Navigation Toolbar -->
+     <core:Fragment id="_IDGenFragment" fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
+
+
+    </Page>
+</mvc:View>

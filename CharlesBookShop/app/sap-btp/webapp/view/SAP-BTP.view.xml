@@ -6,14 +6,8 @@
 
     <Page id="page" title="BookShop - World of Books" class="sapUiResponsiveMargin" >
         <!-- Navigation Toolbar -->
-        <Toolbar id="navToolbar" class="greenToolbar">
-        <Button id="homeButton" icon="sap-icon://home" press="onHomePress" type="Transparent" class="greenButton"/>
-     
-        <Button id="wishlistButton" icon="sap-icon://favorite" type="Transparent" class="greenButton" press="onWishlistPress"/>
-        <Button id="cartButton" icon="sap-icon://cart" type="Transparent" class="greenButton" press="onCartPress"/>
-        <Button id="accountButton" icon="sap-icon://customer" type="Transparent" class="greenButton" press="onAccountPress"/>
-         <ToolbarSpacer id="_IDGenToolbarSpacer"/>
-        </Toolbar>
+     <core:Fragment fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
+
 
         
         <!-- Promotional Banner Carousel -->

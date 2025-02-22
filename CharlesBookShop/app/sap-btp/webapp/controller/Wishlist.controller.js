@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Controller) {
     "use strict";
 
-    return Controller.extend("sapbtp.controller.SAP-BTP", {
+    return Controller.extend("sapbtp.controller.Wishlist", {
 
         onInit: function () {
             // Initialization logic

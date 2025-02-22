@@ -93,15 +93,40 @@
         {
           "name": "RouteSAP-BTP",
           "pattern": ":?query:",
-          "target": [
-            "TargetSAP-BTP"
-          ]
+          "target": ["TargetSAP-BTP"]
+        },
+        {
+          "name": "Wishlist",
+          "pattern": "wishlist",
+          "target": "TargetWishlist"
+        },
+        {
+          "name": "Cart",
+          "pattern": "cart",
+          "target": "TargetCart"
+        },
+        {
+          "name": "Account",
+          "pattern": "account",
+          "target": "TargetAccount"
         }
       ],
       "targets": {
         "TargetSAP-BTP": {
           "id": "SAP-BTP",
           "name": "SAP-BTP"
+        },
+        "TargetWishlist": {
+          "id": "Wishlist",
+          "name": "Wishlist"
+        },
+        "TargetCart": {
+          "id": "Cart",
+          "name": "Cart"
+        },
+        "TargetAccount": {
+          "id": "Account",
+          "name": "Account"
         }
       }
     },

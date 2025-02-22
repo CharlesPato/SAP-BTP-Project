@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="sapbtp.controller.Account"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="_IDGenPage3" title="My Account">
+        <content>
+            <Text id="_IDGenText6" text="Manage your account details here!" />
+        </content>
+    </Page>
+</mvc:View>
