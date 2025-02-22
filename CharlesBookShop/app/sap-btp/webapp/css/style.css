@@ -57,6 +57,10 @@ html, body {
     color: white !important;
 }
 
+.wishlistButton .sapMBtnIcon {
+    color: red !important;
+}
+
 
 #viewContainer {
     width: 100%;
@@ -98,6 +102,10 @@ body {
     font-weight: bold;
 }
 
+.wishlistButton {
+    color: green;
+    font-weight: bold;
+}
 /* Promotional Banner */
 .promoCarousel {
     width: 100%;
@@ -156,7 +164,7 @@ body {
 
 /* Bestsellers Section */
 .bestsellersSection {
-    background: white;
+    background: rgb(241, 249, 250);
     padding: 20px;
     margin-top: 20px;
     max-width: 1280px;
@@ -188,7 +196,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 180px;  
-    height: 320px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -230,9 +238,10 @@ body {
     margin-top: 5px;
 }
 
+
 /* Standardized "Add to Cart" Button */
 .addToCartButton {
-    background-color: #ff6600;
+    background-color:green;
     color: white;
     border-radius: 5px;
     padding: 8px 12px;
@@ -269,16 +278,6 @@ body {
     }
 }
 
-
-/* Add to Cart Button */
-.addToCartButton {
-    background-color: #ff6600;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-}
 
 /* Border for each book tile */
 .borderedTile {

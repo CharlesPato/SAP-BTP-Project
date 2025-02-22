@@ -9,6 +9,22 @@ sap.ui.define([
             this.getView().setModel(sap.ui.getCore().getModel());
         },
 
+        onHomePress: function () {
+            this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
+        },
+
+        onWishlistPress: function () {
+            this.getOwnerComponent().getRouter().navTo("Wishlist");
+        },
+
+        onCartPress: function () {
+            this.getOwnerComponent().getRouter().navTo("Cart");
+        },
+
+        onAccountPress: function () {
+            this.getOwnerComponent().getRouter().navTo("Account");
+        },
+
         // Remove book from Wishlist
         onRemoveWishlistPress: function (oEvent) {
             let oItem = oEvent.getSource().getParent().getParent();

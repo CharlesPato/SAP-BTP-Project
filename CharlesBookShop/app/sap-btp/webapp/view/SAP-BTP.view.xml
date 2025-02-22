@@ -41,14 +41,17 @@
                <Image id="_IDGenImage3" src="{imageUrl}" width="150px" height="200px" class="bookImage"/>
                 <Text id="_IDGenText1" text="{title}" class="bookTitle"/>
                 <Text id="_IDGenText2" text="by {author}" class="bookAuthor"/>
-                <Text id="_IDGenText3" text="{avgRating}" class="bookPrice"/>
+                
+                <HBox id="_IDGen" justifyContent="SpaceBetween" width="100%">
+                   <Text id="price" text="R{stock}.00" class="bookPrice"/>
+                   <Text id="_IDGenText3" text="{avgRating}" class="bookPrice"/>
+                </HBox>
 
                 <HBox id="_IDGenHBox1" justifyContent="SpaceBetween" width="100%">
                     <!-- Love Icon for Wishlist -->
                     <Button id="_IDGenButton5" icon="sap-icon://heart" type="Transparent" class="wishlistButton" press="onWishlistPress"/>
-                    
                     <!-- Add to Cart Button -->
-                    <Button id="_IDGenButton7" text="Add to Cart" class="addToCartButton" press="onAddToCartPress"/>
+                    <Button id="_IDGenButton7" text="Add to Cart" class="addToCartButton"  press="onAddToCartPress"/>
                 </HBox>
             </VBox>
         </CustomListItem>

@@ -9,34 +9,9 @@ sap.ui.define([
         onInit: function () {
             this.getView().setModel(sap.ui.getCore().getModel());
             this.startCarouselRotation();
-            //this.loadBookImages();
+          
         },
-        
-        loadBookImages: function () {
-            let aBookImages = [
-                "images/Book1.png",
-                "images/Book2.png",
-                "images/Book3.png",
-                "images/Book4.png",
-                "images/Book5.png"
-            ];
-        
-            // Check if images exist in the folder
-            let aBooks = aBookImages.map((img, index) => ({
-                title: `Book ${index + 1}`,
-                author: `Author ${index + 1}`,
-                stock: "In Stock",
-                image: img
-            }));
-        
-            let oModel = new JSONModel({ Books: aBooks });
-        
-            // Set model at the component level to ensure availability
-            this.getOwnerComponent().setModel(oModel);
-        
-            // Also set model at the view level (if necessary)
-            this.getView().setModel(oModel);
-        },
+      
         
 
         onHomePress: function () {

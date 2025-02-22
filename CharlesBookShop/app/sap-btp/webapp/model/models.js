@@ -8,7 +8,7 @@ function (JSONModel, Device) {
     return {
         /**
          * Provides runtime information for the device the UI5 app is running on as a JSONModel.
-         * @returns {sap.ui.model.json.JSONModel} The device model.
+         * @returns {sap.ui.model.json.JSONModel} 
          */
         createDeviceModel: function () {
             var oModel = new JSONModel(Device);
