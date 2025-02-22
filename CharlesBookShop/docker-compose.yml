@@ -1,0 +1,19 @@
+
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: DB_Container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: charlesbookstore
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
+    driver: local

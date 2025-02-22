@@ -1,0 +1,62 @@
+<mvc:View
+    controllerName="sapbtp.controller.SAP-BTP"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page id="page" title="BookShop - World of Books" class="sapUiResponsiveMargin" >
+        <!-- Navigation Toolbar -->
+        <Toolbar id="navToolbar" class="greenToolbar">
+        <Button id="homeButton" icon="sap-icon://home" press="onHomePress" type="Transparent" class="greenButton"/>
+     
+        <Button id="wishlistButton" icon="sap-icon://favorite" type="Transparent" class="greenButton" press="onWishlistPress"/>
+        <Button id="cartButton" icon="sap-icon://cart" type="Transparent" class="greenButton" press="onCartPress"/>
+        <Button id="accountButton" icon="sap-icon://customer" type="Transparent" class="greenButton" press="onAccountPress"/>
+         <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+        </Toolbar>
+
+        
+        <!-- Promotional Banner Carousel -->
+       <Carousel id="promoCarousel" height="200px" class="promoCarousel">
+        <Image id="banner1" src="images/Book1.png" class="carouselImage"/>
+        <Image id="banner2" src="images/Book2.png" class="carouselImage"/>
+        <Image id="banner3" src="images/Book3.png" class="carouselImage"/>
+        </Carousel>
+
+        
+        <!-- Promotional Section -->
+        <VBox id="promoSection" class="promoSection">
+            <Text id="_IDGenText" text="Hezy Theme: What We Can All Do to Save America's Future" class="promoText"/>
+            <Button id="_IDGenButton" text="View More" class="promoButton" press="onPromoPress"/>
+        </VBox>
+        
+        <!-- Shop Categories -->
+        <FlexBox id="categoryFlexBox" justifyContent="SpaceAround" wrap="Wrap" class="categoryBox">
+            <Button id="_IDGenButton1" text="SHOP SALE" class="categoryButton" press="onSalePress"/>
+            <Button id="_IDGenButton2" text="LATEST PRODUCTS" class="categoryButton" press="onNewArrivalsPress"/>
+            <Button id="_IDGenButton3" text="READ THE BLOG" class="categoryButton" press="onBlogPress"/>
+        </FlexBox>
+        
+      <VBox id="bestsellersSection" class="bestsellersSection">
+      <Title id="_IDGenTitle" text="Bestsellers" class="bestsellerTitle"/>
+
+    <!-- FlexBox to display books as tiles in rows of 5 -->
+    <FlexBox id="bestsellerFlexBox" justifyContent="SpaceBetween" wrap="Wrap" items="{/Books}">
+        <items>
+            <CustomListItem id="_IDGenCustomListItem">
+                <VBox id="_IDGenVBox" class="bookTile borderedTile">
+                    <Image id="_IDGenImage3" src="images/Book4.png" width="150px" height="200px" class="bookImage"/>
+                    <Text id="_IDGenText1" text="{title}" class="bookTitle"/>
+                    <Text id="_IDGenText2" text="by {author}" class="bookAuthor"/>
+                    <Text id="_IDGenText3" text="{stock}" class="bookPrice"/>
+                    <Button id="_IDGenButton5" text="Add to Cart" class="addToCartButton" press="onAddToCartPress"/>
+                </VBox>
+            </CustomListItem>
+        </items>
+    </FlexBox>
+</VBox>
+
+
+
+    </Page>
+</mvc:View>

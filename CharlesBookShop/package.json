@@ -1,0 +1,32 @@
+{
+  "name": "charlesbookstore",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.11.1",
+    "@sap/cds": "^7",
+    "cloudinary": "^2.5.1",
+    "express": "^4"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "postgres",
+        "model": "db/schema.cds",
+        "credentials": {
+          "host": "localhost",
+          "port": 5432,
+          "user": "postgres",
+          "password": "admin",
+          "database": "charlesbookstore"
+        }
+      }
+    }
+  }
+}

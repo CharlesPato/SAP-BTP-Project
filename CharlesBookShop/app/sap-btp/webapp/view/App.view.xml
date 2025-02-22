@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName="sapbtp.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    
+    <App id="app" class="fullScreenApp">
+        <pages>
+            <mvc:XMLView id="_IDGenXMLView" viewName="sapbtp.view.SAP-BTP" />
+        </pages>
+    </App>
+    
+</mvc:View>

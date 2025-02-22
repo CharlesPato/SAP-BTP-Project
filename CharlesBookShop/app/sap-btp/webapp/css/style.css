@@ -1,0 +1,273 @@
+/* General Page Styles */
+.pageStyle {
+    background-color: #f8f8f8;
+    padding: 20px;
+    max-width: 1280px;
+    margin: auto;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+
+.fullScreenApp {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sapMPage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sapUiResponsiveMargin {
+    max-width: 1280px;
+    margin: auto;
+}
+
+
+.greenButton .sapMBtnIcon {
+    color: white !important;
+}
+
+
+#viewContainer {
+    width: 100%;
+    max-width: 1280px;
+    padding: 20px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Toolbar */
+.greenToolbar {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    height:200px;
+    width: 100%;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+
+#page {
+    margin-top: 60px; 
+}
+
+/* Body Adjustments */
+body {
+    padding-top: 60px; 
+    overflow-x: hidden;
+}
+
+/* Button Styles */
+.greenButton {
+    color: white;
+    font-weight: bold;
+}
+
+/* Promotional Banner */
+.promoCarousel {
+    width: 100%;
+    max-width: 1280px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.carouselImage {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+/* Promotional Section */
+.promoSection {
+    text-align: center;
+    height: 80px;
+    background: green;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1280px;
+}
+
+.promoText {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.promoButton {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Categories */
+.categoryBox {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    max-width: 1280px;
+    margin: auto;
+}
+
+.categoryButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Bestsellers Section */
+.bestsellersSection {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 1280px;
+    margin: auto;
+}
+
+.bestsellerTitle {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bestsellerFlexBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1280px;
+    margin: auto;
+}
+
+/* Book Tile Styling */
+
+.bookTile {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 180px;  
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bookTile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.bookImage {
+    border-radius: 5px;
+    width: 150px;  
+    height: 200px;
+    object-fit: cover;
+}
+
+
+.bookTitle {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.bookAuthor {
+    color: gray;
+    font-size: 14px;
+    text-align: center;
+}
+
+.bookPrice {
+    font-size: 18px;
+    font-weight: bold;
+    color: green;
+    margin-top: 5px;
+}
+
+/* Standardized "Add to Cart" Button */
+.addToCartButton {
+    background-color: #ff6600;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%; 
+}
+
+
+.bestsellerFlexBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px; 
+    max-width: 1280px;
+    margin: auto;
+}
+
+
+@media (max-width: 768px) {
+    .bestsellerFlexBox {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .bookTile {
+        width: 160px;
+        height: 300px;
+    }
+
+    .bookImage {
+        width: 140px;
+        height: 180px;
+    }
+}
+
+
+/* Add to Cart Button */
+.addToCartButton {
+    background-color: #ff6600;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Border for each book tile */
+.borderedTile {
+    border: 1px solid green;
+    padding: 10px;
+    margin: 50px;
+    border-radius: 5px;
+}
+

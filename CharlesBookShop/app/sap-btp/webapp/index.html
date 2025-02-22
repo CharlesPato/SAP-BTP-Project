@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SAP BTP Project</title>
+    
+    <script
+        id="sap-ui-bootstrap"
+        src="https://sapui5.hana.ondemand.com/1.133.0/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resourceroots='{
+            "sapbtp": "./"
+        }'
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-frameOptions="trusted"
+    ></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Allow scrolling */
+        html, body {
+            height: auto;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: #f8f8f8;
+            overflow-x: hidden;
+        }
+
+        /* Centering the SAPUI5 View */
+        #viewContainer {
+            width: 100%;
+            max-width: 1280px; 
+            padding: 20px;
+            margin: 20px auto; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
+
+</head>
+<body class="sapUiBody sapUiSizeCompact">
+    <div id="viewContainer">
+        <div
+            data-sap-ui-component
+            data-name="sapbtp"
+            data-id="container"
+            data-settings='{"id" : "sapbtp"}'
+            data-handle-validation="true"
+        ></div>
+    </div>
+</body>
+</html>
