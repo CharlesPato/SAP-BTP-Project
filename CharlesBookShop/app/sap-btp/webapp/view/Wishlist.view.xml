@@ -1,11 +1,39 @@
 <mvc:View
     controllerName="sapbtp.controller.Wishlist"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="_IDGenPage1" title="Wishlist">
-   <!-- Navigation Toolbar -->
-     <core:Fragment id="_IDGenFragment" fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
 
+    <Page id="wishlistPage" title="My Wishlist">
+        
+        <!-- Include the Reusable Navigation Toolbar Fragment -->
+        <core:Fragment fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
+
+        <content>
+            <List id="wishlistList" items="{/Wishlist}" noDataText="Your wishlist is empty">
+                <items>
+                    <CustomListItem id="_IDGenCustomListItem1">
+                        <HBox id="_IDGenHBox" justifyContent="SpaceBetween" width="100%">
+                            <!-- Book Image -->
+                            <Image id="_IDGenImage" src="{image}" width="80px" height="100px" class="wishlistImage"/>
+
+                            <!-- Book Details -->
+                            <VBox id="_IDGenVBox2" class="sapUiSmallMarginBegin">
+                                <Text id="_IDGenText4" text="{title}" class="boldText"/>
+                                <Text id="_IDGenText7" text="by {author}" />
+                            </VBox>
+
+                            <!-- Actions (Remove & Move to Cart) -->
+                            <HBox id="_IDGenHBox2">
+                                <Button id="_IDGenButton4" text="Move to Cart" icon="sap-icon://cart" type="Emphasized" press="onMoveToCartPress"/>
+                                <Button id="_IDGenButton6" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveWishlistPress"/>
+                            </HBox>
+                        </HBox>
+                    </CustomListItem>
+                </items>
+            </List>
+        </content>
 
     </Page>
+
 </mvc:View>

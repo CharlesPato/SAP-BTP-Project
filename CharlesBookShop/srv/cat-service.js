@@ -1,29 +1,35 @@
 const cds = require('@sap/cds');
-const { Books, Ratings } = cds.entities;
 
 module.exports = (srv) => {
-  
- 
   srv.on('READ', 'Books', async (req) => {
-    // Fetch all books
-    const books = await SELECT.from(Books);
+    // Fetch books manually instead of using `next()`
+    const books = await cds.run(SELECT.from('my.bookshop.Books'));
+    
+    // Fetch ratings separately
+    const ratings = await cds.run(SELECT.from('my.bookshop.Ratings'));
 
-    // Iterate through each book and calculate its average rating
-    for (const book of books) {
-      // Fetch ratings for the current book
-      const rates = await SELECT.from(Ratings).where({ book: book.ID });
-      
-      // Calculate the average rating for the book
-      if (rates.length > 0) {
-        const totalRating = rates.reduce((sum, rating) => sum + rating.rating, 0);
-        book.ratings = totalRating / rates.length;  
-      } else {
-        book.ratings = null;  
-      }
-    }
+    console.log("Fetched Ratings:", JSON.stringify(ratings, null, 2)); // Debugging
 
-  
+    // Create a mapping of book IDs to their ratings
+    const ratingMap = {};
+    ratings.forEach(({ book_ID, rating }) => {
+      if (!ratingMap[book_ID]) ratingMap[book_ID] = [];
+      ratingMap[book_ID].push(rating);
+    });
+
+    books.forEach((book) => {
+      // Compute avgRating
+      const bookRatings = ratingMap[book.ID] || [];
+      book.avgRating = bookRatings.length
+        ? (bookRatings.reduce((sum, r) => sum + r, 0) / bookRatings.length).toFixed(1)
+        : 0;
+
+        if (book.imageUrl && !book.imageUrl.startsWith("images/")) {
+          book.imageUrl = `images/${book.imageUrl}`;
+        }
+    });
+
+    console.log("Processed Books:", JSON.stringify(books, null, 2)); // Debugging
     return books;
   });
-
 };

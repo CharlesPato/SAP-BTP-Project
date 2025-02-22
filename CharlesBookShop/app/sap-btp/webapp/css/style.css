@@ -6,6 +6,23 @@
     margin: auto;
 }
 
+.ratingContainer {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.ratingStar {
+    font-size: 24px;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.ratingStar.filled {
+    color: gold;
+}
 
 html, body {
     height: 100%;
@@ -165,7 +182,7 @@ body {
 /* Book Tile Styling */
 
 .bookTile {
-    background: white;
+    background: rgb(207, 250, 248);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

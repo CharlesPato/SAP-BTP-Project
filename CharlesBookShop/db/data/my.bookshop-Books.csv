@@ -1,0 +1,22 @@
+ID,title,author_ID,stock,imageUrl
+201,Wuthering Heights,101,12,WH.png
+207,Jane Eyre,107,11,JE.png
+251,The Raven,150,333,TR.png
+252,Eleonora,150,555,E.png
+271,Catweazle,170,22,C.png
+202,The Great Gatsby,101,33,TGG.png
+203,1984,107,50,1.png
+204,Moby-Dick,101,45,MD.png
+205,Pride and Prejudice,107,25,PAP.png
+206,The Catcher in the Rye,101,65,TCITR.png
+208,Brave New World,107,17,BNW.png
+209,Frankenstein,101,28,F.png
+210,Dracula,107,59,D.png
+211,War and Peace,101,30,WAP.png
+212,The Odyssey,107,72,TO.png
+213,The Brothers Karamazov,101,40,TBK.png
+214,Crime and Punishment,107,95,CAP.png
+215,The Picture of Dorian Gray,101,12,TPOGD.png
+216,Anna Karenina,107,84,AK.png
+217,The Count of Monte Cristo,101,19,TCOMC.png
+218,The Iliad,107,38,TI.png

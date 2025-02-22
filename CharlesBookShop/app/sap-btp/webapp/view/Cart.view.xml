@@ -2,9 +2,9 @@
     controllerName="sapbtp.controller.Cart"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
-    <Page title="Shopping Cart">
+    <Page id="_IDGenPage"  title="Shopping Cart">
         <content>
-            <Text text="Your Cart Items will be displayed here!" />
+            <Text id="_IDGenText5" text="Your Cart Items will be displayed here!" />
         </content>
     </Page>
 </mvc:View>

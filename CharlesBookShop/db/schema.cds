@@ -6,6 +6,8 @@ entity Books {
   author : Association to Authors;
   stock  : Integer;
   ratings: Association to many Ratings on ratings.book = $self;
+  avgRating: Decimal(3,1) @computed;
+  imageUrl: String;
 }
 
 entity Authors {
