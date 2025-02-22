@@ -22,3 +22,9 @@ entity Ratings {
   review     : String;
   book       : Association to Books;
 }
+
+entity Wishlist {
+    key ID : UUID default gen_random_uuid(); 
+    username : String;
+    book     : Association to Books;
+}

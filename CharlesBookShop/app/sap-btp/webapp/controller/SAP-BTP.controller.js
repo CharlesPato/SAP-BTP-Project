@@ -28,7 +28,47 @@ sap.ui.define([
 
         onAccountPress: function () {
             this.getOwnerComponent().getRouter().navTo("Account");
-        },
+        },onBookPress: function (oEvent) {
+    var oBindingContext = oEvent.getSource().getBindingContext();
+    if (!oBindingContext) {
+        console.error("No binding context found");
+        return;
+    }
+
+    var bookId = oBindingContext.getProperty("id"); // Ensure the property matches your data model
+    if (!bookId) {
+        console.error("Book ID not found in binding context");
+        return;
+    }
+
+    this.getOwnerComponent().getRouter().navTo("BookDetails", {
+        bookId: bookId
+    });
+},
+onBookPress: function (oEvent) {
+    console.log("Book Pressed!"); // Debugging step 1
+
+    var oBindingContext = oEvent.getSource().getBindingContext();
+    if (!oBindingContext) {
+        console.error("No binding context found");
+        return;
+    }
+
+    var bookId = oBindingContext.getProperty("id"); // Ensure your book ID is correct
+    console.log("Book ID:", bookId); // Debugging step 2
+
+    if (!bookId) {
+        console.error("Book ID not found in binding context");
+        return;
+    }
+
+    this.getOwnerComponent().getRouter().navTo("BookDetails", {
+        bookId: bookId
+    });
+
+    console.log("Navigating to BookDetails with ID:", bookId); // Debugging step 3
+}
+,
 
         // Add book to Wishlist
         onAddToWishlistPress: function (oEvent) {
@@ -39,7 +79,7 @@ sap.ui.define([
             let oModel = this.getView().getModel();
             let aWishlist = oModel.getProperty("/Wishlist") || [];
 
-            // Prevent duplicates in Wishlist
+   
             if (!aWishlist.some(book => book.title === oBook.title)) {
                 aWishlist.push(oBook);
                 oModel.setProperty("/Wishlist", aWishlist);

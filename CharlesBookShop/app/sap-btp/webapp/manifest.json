@@ -109,6 +109,11 @@
           "name": "Account",
           "pattern": "account",
           "target": "TargetAccount"
+        },
+        {
+          "name": "BookDetails",
+          "pattern": "book/{bookId}",
+          "target": "TargetBookDetails"
         }
       ],
       "targets": {
@@ -127,6 +132,12 @@
         "TargetAccount": {
           "id": "Account",
           "name": "Account"
+        },
+        "TargetBookDetails": {
+          "id": "BookDetails",
+          "name": "BookDetails",
+          "viewName": "BookDetails",
+          "viewLevel": 2
         }
       }
     },
