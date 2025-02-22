@@ -5,33 +5,34 @@
     xmlns:core="sap.ui.core">
 
     <Page id="wishlistPage" title="My Wishlist">
-        
-        <!-- Include the Reusable Navigation Toolbar Fragment -->
+
+        <!-- Navigation Toolbar -->
         <core:Fragment fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
 
         <content>
-            <List id="wishlistList" items="{/Wishlist}" noDataText="Your wishlist is empty">
-                <items>
-                    <CustomListItem id="_IDGenCustomListItem1">
-                        <HBox id="_IDGenHBox" justifyContent="SpaceBetween" width="100%">
-                            <!-- Book Image -->
-                            <Image id="_IDGenImage" src="{image}" width="80px" height="100px" class="wishlistImage"/>
+            <VBox id="_IDGenVBox2" class="sapUiSmallMargin wishlistContainer">
+                <Title id="_IDGenTitle1" text="My Wishlist 📚" class="wishlistTitle"/>
 
-                            <!-- Book Details -->
-                            <VBox id="_IDGenVBox2" class="sapUiSmallMarginBegin">
-                                <Text id="_IDGenText4" text="{title}" class="boldText"/>
-                                <Text id="_IDGenText7" text="by {author}" />
+                <!-- FlexBox for Wishlist Tiles -->
+                <FlexBox id="_IDGenFlexBox" justifyContent="Start" wrap="Wrap" 
+                    items="{wishlistModel>/Wishlist}" class="wishlistBox">
+                    
+                    <items>
+                        <CustomListItem id="_IDGenCustomListItem" press="onBookPress">
+                            <VBox id="_IDGenVBox3" class="wishlistTile borderedTile">
+                                <Image id="_IDGenImage" src="{wishlistModel>imageUrl}" width="200px" height="300px" class="bookImage"/>
+                                <Text id="_IDGenText4" text="{wishlistModel>title}" class="bookTitle"/>
+                                <Text id="_IDGenText7" text="Rating: {wishlistModel>avgRating}" class="bookRating"/>
+                                <HBox id="_IDGenHBox2" justifyContent="SpaceBetween" class="wishlistActions">
+                                    <Button id="_IDGenButton4" text="Move to Cart" icon="sap-icon://cart" type="Emphasized" press="onMoveToCartPress"/>
+                                    <Button id="_IDGenButton6" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveWishlistPress"/>
+                                </HBox>
                             </VBox>
+                        </CustomListItem>
+                    </items>
+                </FlexBox>
 
-                            <!-- Actions (Remove & Move to Cart) -->
-                            <HBox id="_IDGenHBox2">
-                                <Button id="_IDGenButton4" text="Move to Cart" icon="sap-icon://cart" type="Emphasized" press="onMoveToCartPress"/>
-                                <Button id="_IDGenButton6" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveWishlistPress"/>
-                            </HBox>
-                        </HBox>
-                    </CustomListItem>
-                </items>
-            </List>
+            </VBox>
         </content>
 
     </Page>

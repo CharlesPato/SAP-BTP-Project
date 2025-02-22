@@ -43,7 +43,7 @@
         <Text id="_IDGenText2" text="by {author}" class="bookAuthor"/>
         <Text id="_IDGenText3" text="R{stock}.00" class="bookPrice"/>
         <HBox id="_IDGenHBox1" alignItems="Center" justifyContent="Start">
-            <RatingIndicator id="_IDGenRatingIndicator" value="{= ${avgRating} / 2 }" maxValue="5" enabled="false"/>
+            <RatingIndicator id="_IDGenRatingIndicator" value="{= ${avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
             <Text id="_IDGenText5" text="{= ' (' + ${avgRating} + ')' }"/>
         </HBox>
         <HBox id="_IDGenHBox3" justifyContent="SpaceBetween">

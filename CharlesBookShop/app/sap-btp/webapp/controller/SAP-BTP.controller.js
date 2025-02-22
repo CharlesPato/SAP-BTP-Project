@@ -69,25 +69,34 @@ onBookPress: function (oEvent) {
     console.log("Navigating to BookDetails with ID:", bookId); // Debugging step 3
 }
 ,
+// Function to add book to wishlist
+onWishPress: function (oEvent) {
+    var bookId = oEvent.getSource().getBindingContext().getProperty("ID"); 
+    var username = "CharlesPato"; 
 
-        // Add book to Wishlist
-        onAddToWishlistPress: function (oEvent) {
-            let oItem = oEvent.getSource().getParent().getParent();
-            let oBindingContext = oItem.getBindingContext();
-            let oBook = oBindingContext.getObject();
+    if (!bookId) {
+        MessageToast.show("Invalid Book ID.");
+        return;
+    }
 
-            let oModel = this.getView().getModel();
-            let aWishlist = oModel.getProperty("/Wishlist") || [];
+    console.log("Adding to Wishlist:", { username: username, book_ID: bookId });
 
-   
-            if (!aWishlist.some(book => book.title === oBook.title)) {
-                aWishlist.push(oBook);
-                oModel.setProperty("/Wishlist", aWishlist);
-                MessageToast.show("Added to Wishlist ❤️");
-            } else {
-                MessageToast.show("Already in Wishlist ❤️");
-            }
+    $.ajax({
+        url: "http://localhost:4004/odata/v4/catalog/Wishlist",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ username: username, book_ID: bookId }),
+        success: function () {
+            MessageToast.show("Book added to wishlist!");
         },
+        error: function (xhr) {
+            console.error("Failed to add to wishlist:", xhr.responseText);
+            MessageToast.show("Failed to add to wishlist: " + xhr.responseText);
+        }
+    });
+}
+,
+
 
         // Add book to Cart
         onAddToCartPress: function (oEvent) {
