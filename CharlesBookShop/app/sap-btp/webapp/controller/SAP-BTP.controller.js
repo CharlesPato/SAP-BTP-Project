@@ -54,9 +54,9 @@ sap.ui.define([
             console.log("Navigating to BookDetails with ID:", bookId);
             
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("Book", { bookId: bookId }, true); // Force navigation
+            oRouter.navTo("Book", { bookId: bookId }, true);
         
-            console.log("Navigation triggered"); // Debugging
+          
         },
         
         // =====================================================

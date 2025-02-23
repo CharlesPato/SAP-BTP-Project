@@ -5,6 +5,9 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("sapbtp.controller.Book", {
+        // =====================================================
+        // Lifecycle Methods
+        // =====================================================
         onInit: function () {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.getRoute("Book").attachPatternMatched(this._onObjectMatched, this);
@@ -12,16 +15,24 @@ sap.ui.define([
 
         _onObjectMatched: function (oEvent) {
             var bookId = oEvent.getParameter("arguments").bookId;
-            console.log("📖 Book ID received:", bookId);
+            console.log("Book ID received:", bookId);
 
             if (!bookId) {
-                console.error("⚠️ Book ID is missing in URL");
+                console.error("Book ID is missing in URL");
                 return;
             }
 
             this._loadBookDetails(bookId);
         },
 
+        onHomePress: function () {
+            this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
+            location.reload();
+        },
+
+        // =====================================================
+        // Book Data Loading Methods
+        // =====================================================
         _loadBookDetails: function (bookId) {
             var oView = this.getView();
             var sBookUrl = `http://localhost:4004/odata/v4/catalog/getBookByID(bookId=${bookId})`;
@@ -32,80 +43,91 @@ sap.ui.define([
                 contentType: "application/json",
                 success: function (oBookData) {
                     if (oBookData) {
-                        console.log("📚 Book Data:", oBookData);
-
-                        // Update book details
                         oView.byId("imgBookCover").setSrc(oBookData.imageUrl);
                         oView.byId("titleBook").setText(oBookData.title);
-                        oView.byId("ratingBook").setValue(oBookData.avgRating / 2);
-                        oView.byId("txtRatingValue").setText(`(${oBookData.avgRating})`);
-
-                        // Fetch and update author name
+                      
+                      
                         if (oBookData.author_ID) {
-                            this._fetchAuthorName(oBookData.author_ID);
+                            this._fetchAuthorName(oBookData.author_ID, function (authorName) {
+                                oView.byId("txtBookAuthor").setText("by " + (authorName || "Unknown"));
+                            });
                         } else {
                             oView.byId("txtBookAuthor").setText("by Unknown");
                         }
 
-                        // Fetch and update book reviews
-                        this._fetchBookReviews(bookId);
+                        this._fetchBookReviews(bookId, function (reviewsText) {
+                            oView.byId("reviewList").destroyItems();
+                            reviewsText.forEach(review => {
+                                oView.byId("reviewList").addItem(new sap.m.StandardListItem({
+                                    title: review.reviewer,
+                                    description: review.review
+                                }));
+                            });
+                        });
                     }
                 }.bind(this),
-                error: function (xhr) {
-                    console.error("❌ Failed to fetch book details:", xhr);
+                error: function () {
                     MessageToast.show("Failed to load book details.");
                 }
             });
         },
 
-        _fetchAuthorName: function (authorId) {
-            var oView = this.getView();
-            var sAuthorUrl = "http://localhost:4004/odata/v4/catalog/Authors";
+        
+
+       
+
+        // =====================================================
+        // Wishlist Methods
+        // =====================================================
+        onAddToWishlist: function (oEvent) {
+            var bookId = oEvent.getSource().getBindingContext().getProperty("ID");
+            var username = "CharlesPato";
+
+            if (!bookId) {
+                MessageToast.show("Invalid Book ID.");
+                return;
+            }
 
             $.ajax({
-                url: sAuthorUrl,
-                type: "GET",
+                url: "http://localhost:4004/odata/v4/catalog/Wishlist",
+                method: "POST",
                 contentType: "application/json",
-                success: function (oData) {
-                    console.log("👤 Authors Data:", oData);
-                    var author = oData.value.find(author => author.ID === authorId);
-                    var authorName = author ? author.name : "Unknown";
-                    oView.byId("txtBookAuthor").setText("by " + authorName);
+                data: JSON.stringify({ username: username, book_ID: bookId }),
+                success: function () {
+                    MessageToast.show("Book added to wishlist!");
                 },
-                error: function (xhr) {
-                    console.error("❌ Failed to fetch author name:", xhr);
-                    oView.byId("txtBookAuthor").setText("by Unknown");
+                error: function () {
+                    MessageToast.show("Failed to add book to wishlist.");
                 }
             });
         },
 
-        _fetchBookReviews: function (bookId) {
-            var oView = this.getView();
-            var sReviewsUrl = `http://localhost:4004/odata/v4/catalog/Ratings?$filter=book_ID eq ${bookId}`;
+        // =====================================================
+        // Cart Methods
+        // =====================================================
+        onBuyNow: function (oEvent) {
+            let oItem = oEvent.getSource().getParent().getParent();
+            let oBindingContext = oItem.getBindingContext();
+            let oBook = oBindingContext.getObject();
+            let quantity = 1;
 
             $.ajax({
-                url: sReviewsUrl,
-                type: "GET",
+                url: "http://localhost:4004/odata/v4/catalog/Cart",
+                method: "POST",
                 contentType: "application/json",
-                success: function (oData) {
-                    console.log("📝 Reviews Data:", oData);
-                    var reviews = oData.value;
-                    if (reviews.length > 0) {
-                        var formattedReviews = reviews.map(review => 
-                            `⭐ Rating: ${review.rating}/10\n${review.review}`
-                        ).join("\n\n");
-                        oView.byId("txtBookReviews").setText(formattedReviews);
-                    } else {
-                        oView.byId("txtBookReviews").setText("No reviews yet.");
-                    }
+                data: JSON.stringify({ book_ID: oBook.ID, quantity: quantity }),
+                success: function () {
+                    MessageToast.show("Added to Cart 🛒");
                 },
-                error: function (xhr) {
-                    console.error("❌ Failed to fetch book reviews:", xhr);
-                    oView.byId("txtBookReviews").setText("No reviews yet.");
+                error: function () {
+                    MessageToast.show("Failed to add to Cart.");
                 }
             });
         },
 
+        // =====================================================
+        // Navigation Methods
+        // =====================================================
         onNavBack: function () {
             this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
         }

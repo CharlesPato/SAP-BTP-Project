@@ -7,5 +7,5 @@ service CatalogService {
   entity Wishlist as projection on my.Wishlist;
   entity Cart as projection on my.Cart;
 
-  function getBookByID(bookId: Integer) returns Books;
+  function getBookByID(bookId: Integer) returns Books;// Getting Single Book by ID
 }

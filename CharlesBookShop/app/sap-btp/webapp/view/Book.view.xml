@@ -4,46 +4,31 @@
     xmlns="sap.m">
 
     <Page id="pgBookDetails" title="{title}" class="bookDetailsPage">
-     <Toolbar id="navTogolbar" class="greenToolbar">
-        <Button id="homeButton2" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
+    <Toolbar id="navToolbar2" class="greenToolbar">
+        <Button id="homeButtonw" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
         
+        <ToolbarSpacer id="_IDGenToolbarSpacerw"/>
     </Toolbar>
         <content>
-            <VBox id="vboxBookDetails" class="bookDetailsContainer">
-                <!-- Main Book Details Layout -->
-                <HBox id="hboxBookLayout" class="bookLayout">
-                    <!-- Left Section: Book Info -->
-                    <VBox id="vboxBookInfo" class="bookInfo">
-                        <Text id="txtAvailable" text="NOW AVAILABLE" class="availableText"/>
-                        <Title id="titleBook" text="{title}" class="bookTitle"/>
-                        <Text id="txtBookAuthor" text="by Unknown" class="bookAuthor"/> <!-- Dynamic from controller -->
-                        <Text id="txtBookStock" text="{= 'Stock: ' + ${stock}}" class="bookStock"/>
-                        
-                        <HBox id="hboxBookRating" alignItems="Center">
-                            <RatingIndicator id="ratingBook" value="0" maxValue="5" enabled="false" class="customRating"/>
-                            <Text id="txtRatingValue" text="(0)" class="ratingText"/>
-                        </HBox>
-
-                        <!-- Purchase Buttons -->
-                        <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
-                            <Button id="btnBuyNow" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
-                            <Button id="btnWishlist" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
-                        </HBox>
-                    </VBox>
-
-                    <!-- Right Section: Book Image -->
-                    <VBox id="vboxBookImage" class="bookImageContainer">
-                        <Image id="imgBookCover" src="" width="250px" height="350px" class="bookImage"/>
-                        <Text id="txtBestsellerTag" text="BESTSELLER" class="bestsellerTag"/>
-                    </VBox>
-                </HBox>
-
-                <!-- Reviews Section -->
-                <VBox id="vboxReviews" class="reviewsContainer">
-                    <Title id="titleReviews" text="Reviews" class="reviewsTitle"/>
-                    <Text id="txtBookReviews" text="Loading reviews..." class="reviewsText"/>
+            <HBox id="hboxMainLayout" class="mainLayout" justifyContent="Center" alignItems="Start">
+                
+     
+                <VBox id="vboxBookImage" class="bookImageContainer">
+                    <Image id="imgBookCover" src="" width="300px" height="450px" class="bookImage"/>
                 </VBox>
-            </VBox>
+
+                
+                <VBox id="vboxBookInfo" class="bookInfoContainer">
+                    <Text id="txtAvailable" text="NOW AVAILABLE" class="availableText"/>
+                    <Title id="titleBook" text="{title}" class="bookTitle"/>
+                   <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
+                        <Button id="btnBuyNow" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
+                        <Button id="btnWishlist" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+           
         </content>
     </Page>
 </mvc:View>

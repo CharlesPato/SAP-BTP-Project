@@ -16,7 +16,7 @@
        text="{= 'Overall Cart Cost: R' + ${cartModel>/TotalCost} }" 
        class="cartTotal"/>
 
-                <!-- Cart Items -->
+                
                 <FlexBox id="_IDGenFlexBox1" justifyContent="Start" wrap="Wrap" items="{cartModel>/Cart}" class="cartBox">
                     <items>
                         <CustomListItem id="_IDGenCustomListItem1">
@@ -28,7 +28,7 @@
                                <HBox id="_IDGenHBox" justifyContent="Center" alignItems="Center" class="cartQuantityControl">
                                 <Button id="_IDGenButton8" text="-" type="Transparent" press="onDecreaseQuantity" />
 
-                                <!-- Allow user to manually enter quantity -->
+                           
                                 <Input id="_IDGenInput1" 
                                     value="{cartModel>quantity}" 
                                     type="Number"
@@ -39,7 +39,7 @@
                                                     <Button id="_IDGenButton9" text="+" type="Transparent" press="onIncreaseQuantity" />
                                                 </HBox>
 
-                                                <!-- Action Buttons (Remove & Update) -->
+                                             
                                                 <HBox id="_IDGenHBox5" justifyContent="SpaceBetween" class="cartActions">
                                                     <Button id="_IDGenButton10" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveCartPress"/>
                                                     <Button id="_IDGenButtonUpdate" text="Update" type="Emphasized" press="onUpdateCartPress"/>
@@ -51,7 +51,7 @@
                     </items>
                 </FlexBox>
 
-                <!-- Total Cost -->
+                
             <Title id="_IDGenTitle4" 
        text="{= 'Total Cost: R' + ${cartModel>/TotalCost}.toFixed(2)}" 
        class="cartTotal"/>

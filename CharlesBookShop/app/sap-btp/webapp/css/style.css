@@ -293,7 +293,8 @@ body {
 }
 
 .bookImage {
-    border-radius: 10px;
+    border: 1px solid green;
+    border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -302,6 +303,21 @@ body {
     font-weight: bold;
     color: #d35400;
     margin-top: 10px;
+}
+.bookImageContainer {
+
+    padding: 1rem;
+    margin-right: 2rem; 
+}
+
+.bookInfoContainer {
+    width: 50%;
+}
+
+.mainLayout {
+    display: flex;
+    justify-content: center;
+    align-items: start;
 }
 
 
