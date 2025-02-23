@@ -51,8 +51,8 @@
             <Button id="_IDGenButton7" text="Add to Cart" press="onAddToCartPress"/>
         </HBox>
     </VBox>
+      <Button id="_IDGenButt" text="View Book Details" press="onViewBookDetails"/>
 </CustomListItem>
-
     </items>
 </FlexBox>
 

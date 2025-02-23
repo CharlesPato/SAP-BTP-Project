@@ -5,15 +5,17 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("sapbtp.controller.SAP-BTP", {
-
+        // =====================================================
+        // Lifecycle Methods
+        // =====================================================
         onInit: function () {
             this.getView().setModel(sap.ui.getCore().getModel());
             this.startCarouselRotation();
-          
         },
-      
-        
 
+        // =====================================================
+        // Navigation Methods
+        // =====================================================
         onHomePress: function () {
             this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
             location.reload();
@@ -32,96 +34,83 @@ sap.ui.define([
         onAccountPress: function () {
             this.getOwnerComponent().getRouter().navTo("Account");
             location.reload();
-        },onBookPress: function (oEvent) {
-    var oBindingContext = oEvent.getSource().getBindingContext();
-    if (!oBindingContext) {
-        console.error("No binding context found");
-        return;
-    }
-
-    var bookId = oBindingContext.getProperty("id"); 
-    if (!bookId) {
-        console.error("Book ID not found in binding context");
-        return;
-    }
-
-    this.getOwnerComponent().getRouter().navTo("BookDetails", {
-        bookId: bookId
-    });
-},
-onBookPress: function (oEvent) {
-  
-
-    var oBindingContext = oEvent.getSource().getBindingContext();
-    if (!oBindingContext) {
-        console.error("No binding context found");
-        return;
-    }
-
-    var bookId = oBindingContext.getProperty("id");
-    
-
-    if (!bookId) {
-        console.error("Book ID not found in binding context");
-        return;
-    }
-
-    this.getOwnerComponent().getRouter().navTo("BookDetails", {
-        bookId: bookId
-    });
-
-    console.log("Navigating to BookDetails with ID:", bookId); 
-}
-,
-// Function to add book to wishlist
-onWishPress: function (oEvent) {
-    var bookId = oEvent.getSource().getBindingContext().getProperty("ID"); 
-    var username = "CharlesPato"; 
-
-    if (!bookId) {
-        MessageToast.show("Invalid Book ID.");
-        return;
-    }
-
-   
-
-    $.ajax({
-        url: "http://localhost:4004/odata/v4/catalog/Wishlist",
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ username: username, book_ID: bookId }),
-        success: function () {
-            MessageToast.show("Book added to wishlist!");
         },
-        error: function (xhr) {
-  
-            MessageToast.show("Book added to wishlist!");
-        }
-    });
-},
-onAddToCartPress: function (oEvent) {
-    let oItem = oEvent.getSource().getParent().getParent();
-    let oBindingContext = oItem.getBindingContext();
-    let oBook = oBindingContext.getObject();
-    let quantity = 1; // Default quantity, can be updated dynamically
 
-    $.ajax({
-        url: "http://localhost:4004/odata/v4/catalog/Cart",
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ book_ID: oBook.ID, quantity: quantity }),
-        success: function (response) {
-            MessageToast.show("Added to Cart 🛒");
+        onViewBookDetails: function (oEvent) {
+            var oBindingContext = oEvent.getSource().getBindingContext();
+            
+            if (!oBindingContext) {
+                console.error("No binding context found");
+                return;
+            }
+        
+            var bookId = oBindingContext.getProperty("ID");
+        
+            if (!bookId) {
+                console.error("Book ID not found in binding context");
+                return;
+            }
+        
+            console.log("Navigating to BookDetails with ID:", bookId);
+            
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("Book", { bookId: bookId }, true); // Force navigation
+        
+            console.log("Navigation triggered"); // Debugging
         },
-        error: function (xhr) {
-            MessageToast.show("Added to Cart 🛒");
-        }
-    });
-}
+        
+        // =====================================================
+        // Wishlist Methods
+        // =====================================================
+        onWishPress: function (oEvent) {
+            var bookId = oEvent.getSource().getBindingContext().getProperty("ID");
+            var username = "CharlesPato";
 
-,
+            if (!bookId) {
+                MessageToast.show("Invalid Book ID.");
+                return;
+            }
 
-     // Automatically rotate the carousel every 10 seconds
+            $.ajax({
+                url: "http://localhost:4004/odata/v4/catalog/Wishlist",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ username: username, book_ID: bookId }),
+                success: function () {
+                    MessageToast.show("Book added to wishlist!");
+                },
+                error: function () {
+                    MessageToast.show("Book added to wishlist!");
+                }
+            });
+        },
+
+        // =====================================================
+        // Cart Methods
+        // =====================================================
+        onAddToCartPress: function (oEvent) {
+            let oItem = oEvent.getSource().getParent().getParent();
+            let oBindingContext = oItem.getBindingContext();
+            let oBook = oBindingContext.getObject();
+            let quantity = 1;
+
+            $.ajax({
+                url: "http://localhost:4004/odata/v4/catalog/Cart",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ book_ID: oBook.ID, quantity: quantity }),
+                success: function () {
+                    MessageToast.show("Added to Cart 🛒");
+                },
+                error: function () {
+                    MessageToast.show("Added to Cart 🛒");
+                }
+            });
+        },
+
+        // =====================================================
+        // Carousel Rotation
+        // =====================================================
         startCarouselRotation: function () {
             var oCarousel = this.getView().byId("promoCarousel");
             if (!oCarousel) return;

@@ -123,7 +123,7 @@ sap.ui.define([
                             method: "DELETE",
                             success: function () {
                                 MessageToast.show("Removed from Wishlist.");
-                                that._loadWishlist();
+                                location.reload();
                             },
                             error: function (xhr) {
                                 console.error("Error deleting wishlist:", xhr.responseText);

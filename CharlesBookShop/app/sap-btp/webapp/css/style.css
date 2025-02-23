@@ -245,6 +245,64 @@ body {
     margin-top: 5px;
 }
 
+.bookDetailsPage {
+    background: linear-gradient(to right, #f8f9fa, #eef1f5);
+}
+
+.bookDetailsContainer {
+    padding: 20px;
+}
+
+.bookLayout {
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.bookInfo {
+    max-width: 50%;
+}
+
+.bookTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.bookAuthor {
+    font-size: 18px;
+    color: #777;
+}
+
+.bookStock {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.customRating {
+    color: #f4b400;
+}
+
+.actionButtons .sapMBtn {
+    margin-right: 10px;
+}
+
+.bookImageContainer {
+    text-align: center;
+}
+
+.bookImage {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bestsellerTag {
+    font-size: 14px;
+    font-weight: bold;
+    color: #d35400;
+    margin-top: 10px;
+}
 
 
 .addToCartButton {

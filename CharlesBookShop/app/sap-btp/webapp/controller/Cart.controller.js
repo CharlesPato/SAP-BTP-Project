@@ -6,11 +6,14 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("sapbtp.controller.Cart", {
+        
+        // ------------------------- Initialization -------------------------
         onInit: function () {
             this.getView().setModel(new JSONModel(), "cartModel");
             this._loadCart();
         },
 
+        // ------------------------- Load Cart -------------------------
         _loadCart: function () {
             var that = this;
             $.ajax({
@@ -56,6 +59,7 @@ sap.ui.define([
             });
         },
 
+        // ------------------------- Quantity Management -------------------------
         onIncreaseQuantity: function (oEvent) {
             let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
@@ -80,23 +84,18 @@ sap.ui.define([
 
         _updateCartQuantity: function (oCartItem) {
             let book_ID = oCartItem.book_ID;
-        
-            // First, find the cart entry ID using book_ID
             $.ajax({
-                url: `http://localhost:4004/odata/v4/catalog/Cart?$filter=book_ID eq ${book_ID}`, // No quotes for numbers
+                url: `http://localhost:4004/odata/v4/catalog/Cart?$filter=book_ID eq ${book_ID}`,
                 method: "GET",
                 success: function (data) {
                     if (!data.value || data.value.length === 0) {
                         MessageToast.show("Cart item not found.");
                         return;
                     }
-        
-                    let cartId = data.value[0].ID; // ✅ Retrieve cart entry ID
-                    let updateUrl = `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`; // ✅ Correct OData format
-        
-                    console.log("Updating cart item with ID:", cartId); // Debugging
-        
-                    // Proceed with updating the cart
+
+                    let cartId = data.value[0].ID;
+                    let updateUrl = `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`;
+
                     $.ajax({
                         url: updateUrl,
                         method: "PATCH",
@@ -106,11 +105,12 @@ sap.ui.define([
                             totalCost: oCartItem.stock * oCartItem.quantity
                         }),
                         success: function () {
+                            location.reload();
                             MessageToast.show("Cart updated successfully.");
                         },
                         error: function (xhr) {
                             console.error("Error updating cart:", xhr.responseText);
-                            MessageToast.show("Error updating cart: " + xhr.responseText);
+                            MessageToast.show("Error updating cart.");
                         }
                     });
                 },
@@ -119,42 +119,35 @@ sap.ui.define([
                 }
             });
         },
-        
 
         _calculateTotalCost: function () {
             let oModel = this.getView().getModel("cartModel");
             let aCartItems = oModel.getProperty("/Cart") || [];
-
             let totalCost = aCartItems.reduce((sum, item) => sum + item.totalCost, 0);
-            oModel.setProperty("/TotalCost", totalCost);
+            oModel.setProperty("/TotalCost", parseFloat(totalCost).toFixed(2));
         },
 
+        // ------------------------- Cart Actions -------------------------
         onUpdateCartPress: function (oEvent) {
             let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
-        
-            if (!oCartItem.book_ID) { // Ensure book_ID is present
+            if (!oCartItem.book_ID) {
                 MessageToast.show("Error: Book ID missing.");
                 return;
             }
-        
             this._updateCartQuantity(oCartItem);
         },
-        
 
         onRemoveCartPress: function (oEvent) {
-            let oBindingContext = oEvent.getSource().getBindingContext("cartModel"); // ✅ Correct model
+            let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
             let book_ID = oCartItem.book_ID;
-        
             if (!book_ID) {
                 MessageToast.show("Error: Book ID missing.");
                 return;
             }
-        
             let that = this;
-        
-            // First, find the cart entry ID using book_ID
+
             $.ajax({
                 url: `http://localhost:4004/odata/v4/catalog/Cart?$filter=book_ID eq ${book_ID}`,
                 method: "GET",
@@ -163,65 +156,31 @@ sap.ui.define([
                         MessageToast.show("Cart entry not found.");
                         return;
                     }
-        
-                    let cartId = data.value[0].ID; // ✅ Retrieve correct cart ID
-        
-                    // Proceed with deleting the cart entry
+
+                    let cartId = data.value[0].ID;
                     $.ajax({
                         url: `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`,
                         method: "DELETE",
                         success: function () {
+                            location.reload();
                             MessageToast.show("Book removed from Cart!");
-        
-                            // Refresh the cart model after deletion
-                            that._loadCart();
+                           
                         },
                         error: function (xhr) {
                             console.error("Error removing item from cart:", xhr.responseText);
-                            MessageToast.show("Error: " + xhr.responseText);
                         }
                     });
                 },
                 error: function (xhr) {
                     console.error("Failed to retrieve Cart entry:", xhr.responseText);
-                    MessageToast.show("Error: " + xhr.responseText);
                 }
             });
-        }
-        
-        ,
-        _calculateTotalCost: function () {
-            let oModel = this.getView().getModel("cartModel");
-            let aCartItems = oModel.getProperty("/Cart") || [];
-        
-            let totalCost = aCartItems.reduce((sum, item) => sum + item.totalCost, 0);
-            
-            // Ensure it’s formatted with two decimal places
-            totalCost = parseFloat(totalCost).toFixed(2);
-        
-            oModel.setProperty("/TotalCost", totalCost);
-        },
-        
-
-        onHomePress: function () {
-            this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
-            location.reload();
         },
 
-        onWishlistPress: function () {
-            this.getOwnerComponent().getRouter().navTo("Wishlist");
-            location.reload();
-        },
-
-        onCartPress: function () {
-            this.getOwnerComponent().getRouter().navTo("Cart");
-            location.reload();
-        },
-
-        onAccountPress: function () {
-            this.getOwnerComponent().getRouter().navTo("Account");
-            location.reload();
-        },
-        
+        // ------------------------- Navigation -------------------------
+        onHomePress: function () { this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP"); location.reload(); },
+        onWishlistPress: function () { this.getOwnerComponent().getRouter().navTo("Wishlist"); location.reload(); },
+        onCartPress: function () { this.getOwnerComponent().getRouter().navTo("Cart"); location.reload(); },
+        onAccountPress: function () { this.getOwnerComponent().getRouter().navTo("Account"); location.reload(); },
     });
 });

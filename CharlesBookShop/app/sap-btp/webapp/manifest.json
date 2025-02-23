@@ -79,68 +79,67 @@
         }
       ]
     },
-    "routing": {
-      "config": {
-        "routerClass": "sap.m.routing.Router",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "transition": "slide",
-        "type": "View",
-        "viewType": "XML",
-        "path": "sapbtp.view"
-      },
-      "routes": [
-        {
-          "name": "RouteSAP-BTP",
-          "pattern": ":?query:",
-          "target": ["TargetSAP-BTP"]
-        },
-        {
-          "name": "Wishlist",
-          "pattern": "wishlist",
-          "target": "TargetWishlist"
-        },
-        {
-          "name": "Cart",
-          "pattern": "cart",
-          "target": "TargetCart"
-        },
-        {
-          "name": "Account",
-          "pattern": "account",
-          "target": "TargetAccount"
-        },
-        {
-          "name": "BookDetails",
-          "pattern": "book/{bookId}",
-          "target": "TargetBookDetails"
-        }
-      ],
-      "targets": {
-        "TargetSAP-BTP": {
-          "id": "SAP-BTP",
-          "name": "SAP-BTP"
-        },
-        "TargetWishlist": {
-          "id": "Wishlist",
-          "name": "Wishlist"
-        },
-        "TargetCart": {
-          "id": "Cart",
-          "name": "Cart"
-        },
-        "TargetAccount": {
-          "id": "Account",
-          "name": "Account"
-        },
-        "TargetBookDetails": {
-          "id": "BookDetails",
-          "name": "BookDetails",
-          "viewName": "BookDetails",
-          "viewLevel": 2
-        }
-      }
+   "routing": {
+  "config": {
+    "routerClass": "sap.m.routing.Router",
+    "controlId": "app", 
+    "controlAggregation": "pages",
+    "transition": "slide",
+    "type": "View",
+    "viewType": "XML",
+    "path": "sapbtp.view"
+  },
+  "routes": [
+    {
+      "name": "RouteSAP-BTP",
+      "pattern": ":?query:",
+      "target": ["TargetSAP-BTP"]
     },
+    {
+      "name": "Wishlist",
+      "pattern": "wishlist",
+      "target": "TargetWishlist"
+    },
+    {
+      "name": "Cart",
+      "pattern": "cart",
+      "target": "TargetCart"
+    },
+    {
+      "name": "Account",
+      "pattern": "account",
+      "target": "TargetAccount"
+    },
+    {
+      "name": "Book",
+      "pattern": "Book/{bookId}",
+      "target": "TargetBook"
+    }
+  ],
+  "targets": {
+    "TargetSAP-BTP": {
+      "id": "SAP-BTP",
+      "name": "SAP-BTP"
+    },
+    "TargetWishlist": {
+      "id": "Wishlist",
+      "name": "Wishlist"
+    },
+    "TargetCart": {
+      "id": "Cart",
+      "name": "Cart"
+    },
+    "TargetAccount": {
+      "id": "Account",
+      "name": "Account"
+    },
+    "TargetBook": {
+     "id": "Book",
+      "name": "Book"
+    }
+  }
+}
+,
     "rootView": {
       "viewName": "sapbtp.view.App",
       "type": "XML",
