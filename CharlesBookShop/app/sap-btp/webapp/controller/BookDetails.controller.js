@@ -30,34 +30,55 @@ sap.ui.define([
             }
         },
 
-        // Add book to Wishlist
-        onAddToWishlist: function () {
-            let oBook = this.getView().getModel("book").getData();
-            let oModel = this.getView().getModel();
-            let aWishlist = oModel.getProperty("/Wishlist") || [];
+       // Function to add book to wishlist
+onWishPress: function (oEvent) {
+    var bookId = oEvent.getSource().getBindingContext().getProperty("ID"); 
+    var username = "CharlesPato"; 
 
-            if (!aWishlist.some(book => book.ID === oBook.ID)) {
-                aWishlist.push(oBook);
-                oModel.setProperty("/Wishlist", aWishlist);
-                MessageToast.show("Added to Wishlist ❤️");
-            } else {
-                MessageToast.show("Already in Wishlist ❤️");
-            }
+    if (!bookId) {
+        MessageToast.show("Invalid Book ID.");
+        return;
+    }
+
+    console.log("Adding to Wishlist:", { username: username, book_ID: bookId });
+
+    $.ajax({
+        url: "http://localhost:4004/odata/v4/catalog/Wishlist",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ username: username, book_ID: bookId }),
+        success: function () {
+            MessageToast.show("Book added to wishlist!");
         },
-
-        // Add book to Cart
-        onAddToCart: function () {
-            let oBook = this.getView().getModel("book").getData();
-            let oModel = this.getView().getModel();
-            let aCart = oModel.getProperty("/Cart") || [];
-
-            if (!aCart.some(book => book.ID === oBook.ID)) {
-                aCart.push(oBook);
-                oModel.setProperty("/Cart", aCart);
-                MessageToast.show("Added to Cart 🛒");
-            } else {
-                MessageToast.show("Already in Cart 🛒");
-            }
+        error: function (xhr) {
+            console.error("Failed to add to wishlist:", xhr.responseText);
+            MessageToast.show("Failed to add to wishlist: " + xhr.responseText);
         }
+    });
+},
+onAddToCartPress: function (oEvent) {
+    var bookId = oEvent.getSource().getBindingContext().getProperty("ID");
+
+    if (!bookId) {
+        MessageToast.show("Invalid Book ID.");
+        return;
+    }
+
+    console.log("Adding to Cart:", bookId);
+
+    $.ajax({
+        url: "http://localhost:4004/odata/v4/catalog/Cart",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ book_ID: bookId }),
+        success: function () {
+            MessageToast.show("Book added to Cart 🛒");
+        },
+        error: function (xhr) {
+            MessageToast.show("Failed to add to Cart: " + xhr.responseText);
+        }
+    });
+},
+        
     });
 });

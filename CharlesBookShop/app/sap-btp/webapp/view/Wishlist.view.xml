@@ -14,7 +14,7 @@
                 <Title id="_IDGenTitle1" text="My Wishlist 📚" class="wishlistTitle"/>
 
                 <!-- FlexBox for Wishlist Tiles -->
-                <FlexBox id="_IDGenFlexBox" justifyContent="Start" wrap="Wrap" 
+                <FlexBox id="_IDGenFlexBox" justifyContent="SpaceBetween" wrap="Wrap" 
                     items="{wishlistModel>/Wishlist}" class="wishlistBox">
                     
                     <items>
@@ -22,7 +22,12 @@
                             <VBox id="_IDGenVBox3" class="wishlistTile borderedTile">
                                 <Image id="_IDGenImage" src="{wishlistModel>imageUrl}" width="200px" height="300px" class="bookImage"/>
                                 <Text id="_IDGenText4" text="{wishlistModel>title}" class="bookTitle"/>
-                                <Text id="_IDGenText7" text="Rating: {wishlistModel>avgRating}" class="bookRating"/>
+                                <Text id="_IDGeneText3" text="R{wishlistModel>stock}.00" class="bookPrice"/>
+                                 <HBox id="_IDGenHBoxe1" alignItems="Center" justifyContent="Start">
+                                <RatingIndicator id="_eIDGenRatingIndicator" value="{= ${wishlistModel>avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
+                                <Text id="_IDGenText5e" text="{= ' (' + ${wishlistModel>avgRating} + ')' }"/>
+                                </HBox>
+                         
                                 <HBox id="_IDGenHBox2" justifyContent="SpaceBetween" class="wishlistActions">
                                     <Button id="_IDGenButton4" text="Move to Cart" icon="sap-icon://cart" type="Emphasized" press="onMoveToCartPress"/>
                                     <Button id="_IDGenButton6" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveWishlistPress"/>

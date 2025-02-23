@@ -28,3 +28,10 @@ entity Wishlist {
     username : String;
     book     : Association to Books;
 }
+
+entity Cart {
+    key ID : UUID default gen_random_uuid(); 
+    book   : Association to Books;
+    quantity : Integer;
+    totalCost: Decimal(10,2);
+}

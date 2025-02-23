@@ -11,13 +11,13 @@
                 <Text id="bookAuthor" text="by {author}" class="bookAuthor"/>
                 <Text id="bookStock" text="{= 'Stock: ' + ${stock}}" class="bookStock"/>
                 
-                <!-- Ratings -->
+             
                 <HBox id="_IDGenHBox4" alignItems="Center">
                     <RatingIndicator id="bookRating" value="{= ${avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
                     <Text id="ratingValue" text="{= '(' + ${avgRating} + ')' }" class="ratingText"/>
                 </HBox>
 
-                <!-- Add to Cart & Wishlist Buttons -->
+            
                 <HBox id="actionButtons" justifyContent="SpaceAround" width="100%">
                     <Button id="wishlistButton1" icon="sap-icon://heart" type="Emphasized" text="Add to Wishlist" press="onAddToWishlist"/>
                     <Button id="cartButton1" icon="sap-icon://cart" type="Emphasized" text="Add to Cart" press="onAddToCart"/>

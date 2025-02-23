@@ -35,7 +35,7 @@ sap.ui.define([
         return;
     }
 
-    var bookId = oBindingContext.getProperty("id"); // Ensure the property matches your data model
+    var bookId = oBindingContext.getProperty("id"); 
     if (!bookId) {
         console.error("Book ID not found in binding context");
         return;
@@ -46,7 +46,7 @@ sap.ui.define([
     });
 },
 onBookPress: function (oEvent) {
-    console.log("Book Pressed!"); // Debugging step 1
+  
 
     var oBindingContext = oEvent.getSource().getBindingContext();
     if (!oBindingContext) {
@@ -54,8 +54,8 @@ onBookPress: function (oEvent) {
         return;
     }
 
-    var bookId = oBindingContext.getProperty("id"); // Ensure your book ID is correct
-    console.log("Book ID:", bookId); // Debugging step 2
+    var bookId = oBindingContext.getProperty("id");
+    
 
     if (!bookId) {
         console.error("Book ID not found in binding context");
@@ -66,7 +66,7 @@ onBookPress: function (oEvent) {
         bookId: bookId
     });
 
-    console.log("Navigating to BookDetails with ID:", bookId); // Debugging step 3
+    console.log("Navigating to BookDetails with ID:", bookId); 
 }
 ,
 // Function to add book to wishlist
@@ -79,7 +79,7 @@ onWishPress: function (oEvent) {
         return;
     }
 
-    console.log("Adding to Wishlist:", { username: username, book_ID: bookId });
+   
 
     $.ajax({
         url: "http://localhost:4004/odata/v4/catalog/Wishlist",
@@ -90,34 +90,34 @@ onWishPress: function (oEvent) {
             MessageToast.show("Book added to wishlist!");
         },
         error: function (xhr) {
-            console.error("Failed to add to wishlist:", xhr.responseText);
-            MessageToast.show("Failed to add to wishlist: " + xhr.responseText);
+  
+            MessageToast.show("Book added to wishlist!");
+        }
+    });
+},
+onAddToCartPress: function (oEvent) {
+    let oItem = oEvent.getSource().getParent().getParent();
+    let oBindingContext = oItem.getBindingContext();
+    let oBook = oBindingContext.getObject();
+    let quantity = 1; // Default quantity, can be updated dynamically
+
+    $.ajax({
+        url: "http://localhost:4004/odata/v4/catalog/Cart",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ book_ID: oBook.ID, quantity: quantity }),
+        success: function (response) {
+            MessageToast.show("Added to Cart 🛒");
+        },
+        error: function (xhr) {
+            MessageToast.show("Added to Cart 🛒");
         }
     });
 }
+
 ,
 
-
-        // Add book to Cart
-        onAddToCartPress: function (oEvent) {
-            let oItem = oEvent.getSource().getParent().getParent();
-            let oBindingContext = oItem.getBindingContext();
-            let oBook = oBindingContext.getObject();
-
-            let oModel = this.getView().getModel();
-            let aCart = oModel.getProperty("/Cart") || [];
-
-            // Prevent duplicates in Cart
-            if (!aCart.some(book => book.title === oBook.title)) {
-                aCart.push(oBook);
-                oModel.setProperty("/Cart", aCart);
-                MessageToast.show("Added to Cart 🛒");
-            } else {
-                MessageToast.show("Already in Cart 🛒");
-            }
-        },
-
-        // Automatically rotate the carousel every 10 seconds
+     // Automatically rotate the carousel every 10 seconds
         startCarouselRotation: function () {
             var oCarousel = this.getView().byId("promoCarousel");
             if (!oCarousel) return;

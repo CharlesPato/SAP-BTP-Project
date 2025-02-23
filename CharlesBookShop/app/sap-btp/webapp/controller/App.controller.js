@@ -6,7 +6,7 @@ sap.ui.define([
 
   return Controller.extend("sapbtp.controller.App", {
       onInit: function () {
-          // Initial setup if required
+     
       },
 
       onNavigateToSingleBook: function () {
