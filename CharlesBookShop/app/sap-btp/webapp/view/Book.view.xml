@@ -3,36 +3,46 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
-    <Page id="bookPage" title="{title}" class="bookDetailsPage">
+    <Page id="pgBookDetails" title="{title}" class="bookDetailsPage">
+     <Toolbar id="navTogolbar" class="greenToolbar">
+        <Button id="homeButton2" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
+        
+    </Toolbar>
         <content>
-            <VBox id="_IDGenVBox6" class="bookDetailsContainer">
+            <VBox id="vboxBookDetails" class="bookDetailsContainer">
                 <!-- Main Book Details Layout -->
-                <HBox id="_IDGenHBox6" class="bookLayout">
+                <HBox id="hboxBookLayout" class="bookLayout">
                     <!-- Left Section: Book Info -->
-                    <VBox id="_IDGenVBox7" class="bookInfo">
-                        <Text id="_IDGenText9" text="NOW AVAILABLE" class="availableText"/>
-                        <Title id="_IDGenTitle2" text="{title}" class="bookTitle"/>
-                        <Text id="_IDGenText10" text="by {author}" class="bookAuthor"/>
-                        <Text id="_IDGenText11" text="{= 'Stock: ' + ${stock}}" class="bookStock"/>
+                    <VBox id="vboxBookInfo" class="bookInfo">
+                        <Text id="txtAvailable" text="NOW AVAILABLE" class="availableText"/>
+                        <Title id="titleBook" text="{title}" class="bookTitle"/>
+                        <Text id="txtBookAuthor" text="by Unknown" class="bookAuthor"/> <!-- Dynamic from controller -->
+                        <Text id="txtBookStock" text="{= 'Stock: ' + ${stock}}" class="bookStock"/>
                         
-                        <HBox id="_IDGenHBox7" alignItems="Center">
-                            <RatingIndicator id="_IDGenRatingIndicator1" value="{= ${avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
-                            <Text id="_IDGenText12" text="{= '(' + ${avgRating} + ')' }" class="ratingText"/>
+                        <HBox id="hboxBookRating" alignItems="Center">
+                            <RatingIndicator id="ratingBook" value="0" maxValue="5" enabled="false" class="customRating"/>
+                            <Text id="txtRatingValue" text="(0)" class="ratingText"/>
                         </HBox>
 
                         <!-- Purchase Buttons -->
-                        <HBox id="_IDGenHBox8" class="actionButtons" justifyContent="Start">
-                            <Button id="_IDGenButton11" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
-                            <Button id="_IDGenButton12" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
+                        <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
+                            <Button id="btnBuyNow" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
+                            <Button id="btnWishlist" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
                         </HBox>
                     </VBox>
 
                     <!-- Right Section: Book Image -->
-                    <VBox id="_IDGenVBox8" class="bookImageContainer">
-                        <Image id="_IDGenImage3" src="{imageUrl}" width="250px" height="350px" class="bookImage"/>
-                        <Text id="_IDGenText13" text="BESTSELLER" class="bestsellerTag"/>
+                    <VBox id="vboxBookImage" class="bookImageContainer">
+                        <Image id="imgBookCover" src="" width="250px" height="350px" class="bookImage"/>
+                        <Text id="txtBestsellerTag" text="BESTSELLER" class="bestsellerTag"/>
                     </VBox>
                 </HBox>
+
+                <!-- Reviews Section -->
+                <VBox id="vboxReviews" class="reviewsContainer">
+                    <Title id="titleReviews" text="Reviews" class="reviewsTitle"/>
+                    <Text id="txtBookReviews" text="Loading reviews..." class="reviewsText"/>
+                </VBox>
             </VBox>
         </content>
     </Page>
