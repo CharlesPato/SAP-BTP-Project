@@ -14,7 +14,7 @@
                 <Title id="_IDGenTitle1" text="My Wishlist 📚" class="wishlistTitle"/>
 
                 <!-- FlexBox for Wishlist Tiles -->
-                <FlexBox id="_IDGenFlexBox" justifyContent="SpaceBetween" wrap="Wrap" 
+                <FlexBox id="_IDGenFlexBox" justifyContent="Start" wrap="Wrap" 
                     items="{wishlistModel>/Wishlist}" class="wishlistBox">
                     
                     <items>

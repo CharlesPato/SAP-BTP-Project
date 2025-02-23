@@ -205,18 +205,22 @@ sap.ui.define([
 
         onHomePress: function () {
             this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
+            location.reload();
         },
 
         onWishlistPress: function () {
             this.getOwnerComponent().getRouter().navTo("Wishlist");
+            location.reload();
         },
 
         onCartPress: function () {
             this.getOwnerComponent().getRouter().navTo("Cart");
+            location.reload();
         },
 
         onAccountPress: function () {
             this.getOwnerComponent().getRouter().navTo("Account");
+            location.reload();
         },
         
     });
