@@ -12,6 +12,8 @@ cloudinary.config({
 });
 
 module.exports = (srv) => {
+    const { Users } = srv.entities;
+    let isLoggedIn = 0
     // =====================================================
     // Books Service
     // =====================================================
@@ -27,20 +29,15 @@ module.exports = (srv) => {
         });
     
         books.forEach((book) => {
-            // Fetch author name
             const author = authors.find(a => a.ID === book.author_ID);
             book.authorName = author ? author.name : "Unknown Author";
-    
-            // Fetch book reviews
             book.reviews = ratingMap[book.ID] || [];
     
-            // Compute average rating
             const bookRatings = ratings.filter(r => r.book_ID === book.ID).map(r => r.rating);
             book.avgRating = bookRatings.length
                 ? (bookRatings.reduce((sum, r) => sum + r, 0) / bookRatings.length).toFixed(1)
                 : 0;
     
-            // Update Cloudinary image URL
             if (book.imageUrl) {
                 book.imageUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/books/${book.imageUrl}`;
             }
@@ -70,86 +67,27 @@ module.exports = (srv) => {
     });
 
     // =====================================================
-    // Wishlist Service
+    // User Authentication Service (Login Only)
     // =====================================================
-    srv.on('CREATE', 'Wishlist', async (req) => {
-        const { username, book_ID } = req.data;
+    srv.on('login', async (req) => {
+        const { email, password } = req.data;
+        if (!email || !password) return req.reject(400, "All fields are required");
     
-        if (!book_ID) return req.error(400, "Book ID is required.");
+        const user = await cds.run(SELECT.one.from(Users).where({ email }));
+        if (!user) return req.reject(401, "Invalid credentials");
     
-        const bookExists = await cds.run(SELECT.one.from('my.bookshop.Books').where({ ID: book_ID }));
-        if (!bookExists) return req.error(404, `Book with ID ${book_ID} not found`);
+        if (password !== user.password) return req.reject(401, "Invalid credentials");
     
-        const existingEntry = await cds.run(SELECT.one.from('my.bookshop.Wishlist').where({ username, book_ID }));
-        if (existingEntry) return req.error(409, 'Book is already in your wishlist');
-    
-        return await cds.run(INSERT.into('my.bookshop.Wishlist').entries({ ID: cds.utils.uuid(), username, book_ID }));
-    });
-    
-    srv.on('DELETE', 'Wishlist', async (req) => {
-        const { ID } = req.data;
-    
-        if (!ID) return req.error(400, "Wishlist ID is required.");
-    
-        await cds.run(DELETE.from('my.bookshop.Wishlist').where({ ID }));
-    
-        return { message: `Wishlist entry ${ID} removed.` };
+        global.isLoggedIn = 1; 
+        return { ...user, isLoggedIn: global.isLoggedIn }; 
     });
     
     // =====================================================
-    // Cart Service
+    // Logout Service
     // =====================================================
-    srv.on('CREATE', 'Cart', async (req) => {
-        const { book_ID, quantity } = req.data;
-    
-        if (!book_ID) return req.error(400, "Book ID is required.");
-    
-        const qtyToAdd = quantity || 1;
-        const book = await cds.run(SELECT.one.from('my.bookshop.Books').where({ ID: book_ID }));
-        if (!book) return req.error(404, `Book with ID ${book_ID} not found`);
-    
-        const stockPrice = book.stock;
-        const totalCost = stockPrice * qtyToAdd;
-    
-        const existingEntry = await cds.run(SELECT.one.from('my.bookshop.Cart').where({ book_ID }));
-    
-        if (existingEntry) {
-            const newQuantity = existingEntry.quantity + qtyToAdd;
-            const newTotalCost = stockPrice * newQuantity;
-    
-            await cds.run(UPDATE('my.bookshop.Cart').set({ quantity: newQuantity, totalCost: newTotalCost }).where({ ID: existingEntry.ID }));
-    
-            return { message: `Updated quantity to ${newQuantity} and total cost to ${newTotalCost}` };
-        } else {
-            return await cds.run(INSERT.into('my.bookshop.Cart').entries({ ID: cds.utils.uuid(), book_ID, quantity: qtyToAdd, totalCost }));
-        }
+    srv.on('logout', async (req) => {
+        isLoggedIn = 0; // Mark user as logged out
+        return { message: "Logged out successfully", isLoggedIn };
     });
     
-    srv.on('PATCH', 'Cart', async (req) => {
-        const { book_ID, quantity } = req.data;
-    
-        if (!book_ID) return req.error(400, "Book ID is required.");
-    
-        const cartItem = await cds.run(SELECT.one.from('my.bookshop.Cart').where({ book_ID }));
-        if (!cartItem) return req.error(404, "Cart item not found.");
-    
-        const book = await cds.run(SELECT.one.from('my.bookshop.Books').where({ ID: book_ID }));
-        if (!book) return req.error(404, "Associated book not found.");
-    
-        const totalCost = book.stock * quantity;
-    
-        await cds.run(UPDATE('my.bookshop.Cart').set({ quantity, totalCost }).where({ ID: cartItem.ID }));
-    
-        return { message: `Updated quantity to ${quantity} and total cost to ${totalCost}` };
-    });
-    
-    srv.on('DELETE', 'Cart', async (req) => {
-        const { ID } = req.data;
-    
-        if (!ID) return req.error(400, "Cart ID is required.");
-    
-        await cds.run(DELETE.from('my.bookshop.Cart').where({ ID }));
-    
-        return { message: `Cart entry ${ID} removed.` };
-    });
 };

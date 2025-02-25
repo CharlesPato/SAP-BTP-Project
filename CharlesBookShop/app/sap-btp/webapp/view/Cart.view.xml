@@ -12,50 +12,49 @@
         <content>
             <VBox id="_IDGenVBox4" class="sapUiSmallMargin cartContainer">
                 <Title id="_IDGenTitle3" text="Your Cart 🛒" class="cartTitle"/>
-                 <Title id="Overallcost" 
-       text="{= 'Overall Cart Cost: R' + ${cartModel>/TotalCost} }" 
-       class="cartTotal"/>
-
                 
+                <!-- Overall Cart Cost -->
+                <Title id="Overallcost" 
+                       text="{= 'Overall Cart Cost: R' + ${cartModel>/TotalCost} }" 
+                       class="cartTotal"/>
+
+                <!-- Cart Items List -->
                 <FlexBox id="_IDGenFlexBox1" justifyContent="Start" wrap="Wrap" items="{cartModel>/Cart}" class="cartBox">
                     <items>
                         <CustomListItem id="_IDGenCustomListItem1">
                             <VBox id="_IDGenVBox5" class="cartTile borderedTile">
+
+                                <!-- Book Image -->
                                 <Image id="_IDGenImage2" src="{cartModel>imageUrl}" width="200px" height="300px" class="bookImage"/>
+                                
+                                <!-- Book Title -->
                                 <Text id="_IDGenText7" text="{cartModel>title}" class="bookTitle"/>
+                                
+                                <!-- Book Price -->
                                 <Text id="_IDGenText8" text="Price: R{cartModel>stock}.00" class="bookPrice"/>
 
-                               <HBox id="_IDGenHBox" justifyContent="Center" alignItems="Center" class="cartQuantityControl">
-                                <Button id="_IDGenButton8" text="-" type="Transparent" press="onDecreaseQuantity" />
+                                <!-- Quantity Control -->
+                                <HBox id="_IDGenHBox" justifyContent="Center" alignItems="Center" class="cartQuantityControl">
+                                    <Button id="_IDGenButton8" text="-" type="Transparent" press="onDecreaseQuantity" />
+                                    <Input id="_IDGenInput1" value="{cartModel>quantity}" type="Number" textAlign="Center" width="50px"/>
+                                    <Button id="_IDGenButton9" text="+" type="Transparent" press="onIncreaseQuantity" />
+                                </HBox>
 
-                           
-                                <Input id="_IDGenInput1" 
-                                    value="{cartModel>quantity}" 
-                                    type="Number"
-                                    textAlign="Center"
-                                    width="50px"
-                                />
-
-                                                    <Button id="_IDGenButton9" text="+" type="Transparent" press="onIncreaseQuantity" />
-                                                </HBox>
-
-                                             
-                                                <HBox id="_IDGenHBox5" justifyContent="SpaceBetween" class="cartActions">
-                                                    <Button id="_IDGenButton10" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveCartPress"/>
-                                                    <Button id="_IDGenButtonUpdate" text="Update" type="Emphasized" press="onUpdateCartPress"/>
-
-                                                </HBox>
+                                <!-- Cart Item Actions -->
+                                <HBox id="_IDGenHBox5" justifyContent="SpaceBetween" class="cartActions">
+                                    <Button id="_IDGenButton10" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveCartPress"/>
+                                    <Button id="_IDGenButtonUpdate" text="Update" type="Emphasized" press="onUpdateCartPress"/>
+                                </HBox>
 
                             </VBox>
                         </CustomListItem>
                     </items>
                 </FlexBox>
 
-                
-            <Title id="_IDGenTitle4" 
-       text="{= 'Total Cost: R' + ${cartModel>/TotalCost}.toFixed(2)}" 
-       class="cartTotal"/>
-
+                <!-- Total Cart Cost -->
+                <Title id="_IDGenTitle4" 
+                       text="{= 'Total Cost: R' + ${cartModel>/TotalCost}.toFixed(2)}" 
+                       class="cartTotal"/>
 
             </VBox>
         </content>

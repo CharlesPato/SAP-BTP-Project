@@ -2,11 +2,29 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
 
+    <!-- Navigation Toolbar -->
     <Toolbar id="navToolbar" class="greenToolbar">
+
+        <!-- Home Button -->
         <Button id="homeButton" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
-        <Button id="wishlistButton" icon="sap-icon://favorite" type="Transparent" class="greenButton" press=".onWishlistPress"/>
-        <Button id="cartButton" icon="sap-icon://cart" type="Transparent" class="greenButton" press=".onCartPress"/>
-        <Button id="accountButton" icon="sap-icon://customer" type="Transparent" class="greenButton" press=".onAccountPress"/>
+
+        <!-- Wishlist Button (Visible if LoggedIn) -->
+        <Button id="wishlistButton" icon="sap-icon://favorite" type="Transparent" class="greenButton" 
+            press=".onWishlistPress" visible="{= ${sessionModel>/LoggedId} === 1 }"/>
+
+        <!-- Cart Button (Visible if LoggedIn) -->
+        <Button id="cartButton" icon="sap-icon://cart" type="Transparent" class="greenButton" 
+            press=".onCartPress" visible="{= ${sessionModel>/LoggedId} === 1 }"/>
+
+        <!-- Logout Button (Visible if LoggedIn) -->
+        <Button id="logoutButton" icon="sap-icon://log" type="Transparent" class="greenButton"
+            text="Logout" press=".onLogoutPress" visible="{= ${sessionModel>/LoggedId} === 1 }"/>
+
+        <!-- Account Button (Visible if LoggedOut) -->
+        <Button id="accountButton" icon="sap-icon://customer" type="Transparent" class="greenButton" 
+            text="Login" press=".onLoginPress" visible="{= ${sessionModel>/LoggedId} === 0 }"/>
+
+        <!-- Spacer for Layout -->
         <ToolbarSpacer id="_IDGenToolbarSpacer"/>
     </Toolbar>
 

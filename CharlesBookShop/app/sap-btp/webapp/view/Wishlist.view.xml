@@ -4,12 +4,14 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
 
+    <!-- Main Page -->
     <Page id="wishlistPage" title="My Wishlist">
 
         <!-- Navigation Toolbar -->
         <core:Fragment fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
 
         <content>
+            <!-- Wishlist Container -->
             <VBox id="_IDGenVBox2" class="sapUiSmallMargin wishlistContainer">
                 <Title id="_IDGenTitle1" text="My Wishlist 📚" class="wishlistTitle"/>
 
@@ -19,15 +21,20 @@
                     
                     <items>
                         <CustomListItem id="_IDGenCustomListItem" press="onBookPress">
+                            
+                            <!-- Wishlist Tile -->
                             <VBox id="_IDGenVBox3" class="wishlistTile borderedTile">
                                 <Image id="_IDGenImage" src="{wishlistModel>imageUrl}" width="200px" height="300px" class="bookImage"/>
                                 <Text id="_IDGenText4" text="{wishlistModel>title}" class="bookTitle"/>
                                 <Text id="_IDGeneText3" text="R{wishlistModel>stock}.00" class="bookPrice"/>
-                                 <HBox id="_IDGenHBoxe1" alignItems="Center" justifyContent="Start">
-                                <RatingIndicator id="_eIDGenRatingIndicator" value="{= ${wishlistModel>avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
-                                <Text id="_IDGenText5e" text="{= ' (' + ${wishlistModel>avgRating} + ')' }"/>
+
+                                <!-- Rating Section -->
+                                <HBox id="_IDGenHBoxe1" alignItems="Center" justifyContent="Start">
+                                    <RatingIndicator id="_eIDGenRatingIndicator" value="{= ${wishlistModel>avgRating} / 2 }" maxValue="5" enabled="false" class="customRating"/>
+                                    <Text id="_IDGenText5e" text="{= ' (' + ${wishlistModel>avgRating} + ')' }"/>
                                 </HBox>
-                         
+
+                                <!-- Wishlist Action Buttons -->
                                 <HBox id="_IDGenHBox2" justifyContent="SpaceBetween" class="wishlistActions">
                                     <Button id="_IDGenButton4" text="Move to Cart" icon="sap-icon://cart" type="Emphasized" press="onMoveToCartPress"/>
                                     <Button id="_IDGenButton6" text="Remove" icon="sap-icon://delete" type="Negative" press="onRemoveWishlistPress"/>

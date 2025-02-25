@@ -1,15 +1,35 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], function (Controller, MessageToast) {
+    "sap/m/MessageToast",
+    "sap/ui/model/json/JSONModel"
+], function (Controller, MessageToast, JSONModel) {
     "use strict";
 
     return Controller.extend("sapbtp.controller.Wishlist", {
+        // =====================================================
+        // Lifecycle Methods
+        // =====================================================
         onInit: function () {
-            this.getView().setModel(new sap.ui.model.json.JSONModel(), "wishlistModel");
+            var sessionModel = sap.ui.getCore().getModel("sessionModel");
+            if (!sessionModel) {
+                var storedSession = localStorage.getItem("sessionData");
+                try {
+                    storedSession = storedSession ? JSON.parse(storedSession) : { isLoggedIn: false, LoggedId: 0, user: {} };
+                } catch (error) {
+                    console.error("Error parsing session data:", error);
+                    storedSession = { isLoggedIn: false, LoggedId: 0, user: {} };
+                }
+                sessionModel = new JSONModel(storedSession);
+                sap.ui.getCore().setModel(sessionModel, "sessionModel");
+            }
+            this.getView().setModel(sessionModel, "sessionModel");
+            this.getView().setModel(new JSONModel(), "wishlistModel");
             this._loadWishlist();
         },
-        
+
+        // =====================================================
+        // Wishlist Loading
+        // =====================================================
         _loadWishlist: function () {
             var that = this;
             var username = "CharlesPato";
@@ -18,15 +38,11 @@ sap.ui.define([
                 url: "http://localhost:4004/odata/v4/catalog/Wishlist",
                 method: "GET",
                 success: function (wishlistData) {
-                    console.log("Wishlist Data:", wishlistData);
-
                     var userWishlist = wishlistData.value.filter(item => item.username === username);
-
                     if (userWishlist.length === 0) {
                         MessageToast.show("Your wishlist is empty.");
                         return;
                     }
-                    
                     var bookIds = userWishlist.map(item => item.book_ID);
                     that._fetchBookDetails(bookIds);
                 },
@@ -42,13 +58,8 @@ sap.ui.define([
                 url: "http://localhost:4004/odata/v4/catalog/Books",
                 method: "GET",
                 success: function (booksData) {
-                    console.log("Books Data:", booksData);
-
                     var wishlistBooks = booksData.value.filter(book => bookIds.includes(book.ID));
-
-                    var oModel = that.getView().getModel("wishlistModel");
-                    oModel.setProperty("/Wishlist", wishlistBooks);
-
+                    that.getView().getModel("wishlistModel").setProperty("/Wishlist", wishlistBooks);
                     MessageToast.show("Wishlist loaded successfully!");
                 },
                 error: function (xhr) {
@@ -57,67 +68,48 @@ sap.ui.define([
             });
         },
 
+        // =====================================================
+        // Wishlist Actions
+        // =====================================================
         onMoveToCartPress: function (oEvent) {
             var that = this;
             var oItem = oEvent.getSource().getParent().getParent();
-            var oBindingContext = oItem.getBindingContext("wishlistModel");
-            var oBook = oBindingContext.getObject();
-        
+            var oBook = oItem.getBindingContext("wishlistModel").getObject();
+
             if (!oBook || !oBook.ID) {
                 MessageToast.show("Invalid Book ID.");
                 return;
             }
-        
-            console.log("Moving to Cart:", oBook.ID);
-        
-            // Call onAddToCartPress and only delete from wishlist if successful
-            that.onAddToCartPress(oBook.ID, function (success) {
+            that.onAddToCartPress(oBook.ID, function () {
                 that._removeFromWishlist(oBook.ID);
             });
         },
-        
+
         onAddToCartPress: function (bookId, callback) {
             $.ajax({
                 url: "http://localhost:4004/odata/v4/catalog/Cart",
                 method: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({
-                    book_ID: bookId,
-                    quantity: 1
-                }),
+                data: JSON.stringify({ book_ID: bookId, quantity: 1 }),
                 success: function () {
                     MessageToast.show("Added to Cart 🛒");
-        
-                    // Call the callback function with success = true
-                    if (callback) {
-                        callback(true);
-                    }
+                    if (callback) callback(true);
                 },
-                error: function (xhr) {
-                  
-                    MessageToast.show("Added to Cart 🛒");
-        
-                    // Call the callback function with success = false
-                    if (callback) {
-                        callback(false);
-                    }
+                error: function () {
+                    MessageToast.show("Failed to add to cart.");
+                    if (callback) callback(false);
                 }
             });
-        }
-        ,
-        
+        },
 
         _removeFromWishlist: function (bookId) {
             var that = this;
-
             $.ajax({
                 url: `http://localhost:4004/odata/v4/catalog/Wishlist?$filter=book_ID eq ${bookId}`,
                 method: "GET",
                 success: function (wishlistData) {
-                    if (wishlistData && wishlistData.value.length > 0) {
+                    if (wishlistData.value.length > 0) {
                         var wishlistId = wishlistData.value[0].ID;
-
-                        // Delete the wishlist entry
                         $.ajax({
                             url: `http://localhost:4004/odata/v4/catalog/Wishlist(${wishlistId})`,
                             method: "DELETE",
@@ -141,9 +133,11 @@ sap.ui.define([
             });
         },
 
+        // =====================================================
+        // Navigation Methods
+        // =====================================================
         onHomePress: function () {
             this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
-            location.reload();
         },
 
         onWishlistPress: function () {
@@ -162,17 +156,13 @@ sap.ui.define([
         },
 
         onRemoveWishlistPress: function (oEvent) {
-            var that = this;
             var oItem = oEvent.getSource().getParent().getParent();
-            var oBindingContext = oItem.getBindingContext("wishlistModel");
-            var oBook = oBindingContext.getObject();
-
+            var oBook = oItem.getBindingContext("wishlistModel").getObject();
             if (!oBook || !oBook.ID) {
                 MessageToast.show("Error: Book ID missing.");
                 return;
             }
-
-            that._removeFromWishlist(oBook.ID);
+            this._removeFromWishlist(oBook.ID);
         }
     });
 });

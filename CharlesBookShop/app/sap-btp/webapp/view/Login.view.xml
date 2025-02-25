@@ -1,0 +1,31 @@
+<mvc:View controllerName="sapbtp.controller.Login" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+    <Page id="loginPage">
+        
+        <!-- Navigation Toolbar -->
+        <Toolbar id="navToolbbar" class="greenToolbar">
+            <Button id="homebButton" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
+            <ToolbarSpacer id="toolbarSpacer"/>
+        </Toolbar>
+
+        <content>
+       
+            <VBox id="loginContainer" class="loginContainer" justifyContent="Center" alignItems="Center">
+                
+                <!-- Login Form Box -->
+                <VBox id="loginForm" class="loginForm">
+                    <Title id="_IDGenTitle2" text="Login" class="loginTitle"/>
+                    
+                    <Input id="loginEmail" placeholder="Email" class="loginInput"/>
+                    <Input id="loginPassword" type="Password" placeholder="Password" class="loginInput"/>
+
+                    <!-- Login Button -->
+                    <Button id="loginButton" text="Login" press="onLoginPress" class="loginButton"/>
+
+                   
+                </VBox>
+
+            </VBox>
+        </content>
+
+    </Page>
+</mvc:View>

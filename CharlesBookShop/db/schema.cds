@@ -1,5 +1,13 @@
 namespace my.bookshop;
 
+
+entity Users {
+    key ID : UUID;
+    username : String(50);
+    email : String(100);
+    password : String(255); 
+}
+
 entity Books {
   key ID : Integer;
   title  : localized String;

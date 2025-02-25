@@ -3,32 +3,41 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
+    <!-- Book Details Page -->
     <Page id="pgBookDetails" title="{title}" class="bookDetailsPage">
-    <Toolbar id="navToolbar2" class="greenToolbar">
-        <Button id="homeButtonw" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
         
-        <ToolbarSpacer id="_IDGenToolbarSpacerw"/>
-    </Toolbar>
+        <!-- Navigation Toolbar -->
+        <Toolbar id="navToolbar2" class="greenToolbar">
+            <Button id="homeButtonw" icon="sap-icon://home" press=".onHomePress" type="Transparent" class="greenButton"/>
+            <ToolbarSpacer id="_IDGenToolbarSpacerw"/>
+        </Toolbar>
+
         <content>
+            <!-- Main Layout (Book Image and Info) -->
             <HBox id="hboxMainLayout" class="mainLayout" justifyContent="Center" alignItems="Start">
-                
-     
+
+                <!-- Book Image Section -->
                 <VBox id="vboxBookImage" class="bookImageContainer">
                     <Image id="imgBookCover" src="" width="300px" height="450px" class="bookImage"/>
                 </VBox>
 
-                
+                <!-- Book Information Section -->
                 <VBox id="vboxBookInfo" class="bookInfoContainer">
-                    <Text id="txtAvailable" text="NOW AVAILABLE" class="availableText"/>
-                    <Title id="titleBook" text="{title}" class="bookTitle"/>
-                   <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
+                    <!-- Book Title placed at the top -->
+                    <Title id="titleBook" text="{title}" level="H1" class="bookTitleMain" />
+
+                    <Text id="txtAvailable" text="NOW AVAILABLE" class="bookAvailabilityText"/>
+
+                    <!-- Action Buttons (Buy Now and Wishlist) -->
+                    <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
                         <Button id="btnBuyNow" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
                         <Button id="btnWishlist" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
                     </HBox>
                 </VBox>
-            </HBox>
 
-           
+            </HBox>
         </content>
+
     </Page>
+
 </mvc:View>

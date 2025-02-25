@@ -82,7 +82,7 @@
    "routing": {
   "config": {
     "routerClass": "sap.m.routing.Router",
-    "controlId": "app", 
+    "controlId": "app",
     "controlAggregation": "pages",
     "transition": "slide",
     "type": "View",
@@ -114,6 +114,16 @@
       "name": "Book",
       "pattern": "Book/{bookId}",
       "target": "TargetBook"
+    },
+    {
+      "name": "Login",
+      "pattern": "login",
+      "target": "TargetLogin"
+    },
+    {
+      "name": "Register",
+      "pattern": "register",
+      "target": "TargetRegister"
     }
   ],
   "targets": {
@@ -134,11 +144,20 @@
       "name": "Account"
     },
     "TargetBook": {
-     "id": "Book",
+      "id": "Book",
       "name": "Book"
+    },
+    "TargetLogin": {
+      "id": "Login",
+      "name": "Login"
+    },
+    "TargetRegister": {
+      "id": "Register",
+      "name": "Register"
     }
   }
 }
+
 ,
     "rootView": {
       "viewName": "sapbtp.view.App",

@@ -8,9 +8,11 @@
   "dependencies": {
     "@cap-js/postgres": "^1.11.1",
     "@sap/cds": "^7",
+    "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
     "dotenv": "^16.4.7",
-    "express": "^4"
+    "express": "^4",
+    "express-session": "^1.18.1"
   },
   "scripts": {
     "start": "cds-serve"

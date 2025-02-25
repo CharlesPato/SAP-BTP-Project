@@ -1,19 +1,13 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
-  "sap/m/MessageToast"
-], function (Controller, MessageToast) {
+  "sap/ui/model/json/JSONModel"
+], function(Controller, JSONModel) {
   "use strict";
 
   return Controller.extend("sapbtp.controller.App", {
-      onInit: function () {
-     
-      },
-
-      onNavigateToSingleBook: function () {
-          this.getOwnerComponent().getRouter().navTo("RouteSingleBook", {
-              bookId: "123"
-          });
-      },
-
+      onInit: function() {
+          var sessionModel = new JSONModel({ isLoggedIn: false });
+          this.getView().setModel(sessionModel, "sessionModel");
+      }
   });
 });

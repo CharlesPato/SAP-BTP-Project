@@ -1,29 +1,6 @@
-/* General Page Styles */
-.pageStyle {
-    background-color: #f8f8f8;
-    padding: 20px;
-    max-width: 1280px;
-    margin: auto;
-}
-
-.ratingContainer {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-}
-
-.ratingStar {
-    font-size: 24px;
-    color: gray;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.ratingStar.filled {
-    color: gold;
-}
-
+/* =====================================================
+   General Page Styles
+===================================================== */
 html, body {
     height: 100%;
     margin: 0;
@@ -31,82 +8,119 @@ html, body {
     overflow: auto;
 }
 
+.pageStyle {
+    background-color: #f8f8f8;
+    padding: 20px;
+    max-width: 1280px;
+    margin: auto;
+}
 
-.fullScreenApp {
+.fullScreenApp, .sapMPage {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-
-.sapMPage {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-
 .sapUiResponsiveMargin {
     max-width: 1280px;
     margin: auto;
 }
+/* =====================================================
+   Login Page Styles
+===================================================== */
 
-
-.greenButton .sapMBtnIcon {
-    color: white !important;
+.loginContainer {
+    height: 50vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.wishlistButton .sapMBtnIcon {
-    color: red !important;
-}
 
-
-#viewContainer {
-    width: 100%;
-    max-width: 1280px;
+.loginForm {
+    width: 500px;
+    height: 300px;
     padding: 20px;
-    margin: auto;
-    background: white;
+    border: 2px solid green;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-/* Navigation Toolbar */
+
+.loginTitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2E7D32;
+    margin-bottom: 15px;
+}
+
+
+.loginInput {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+.loginButton {
+    width: 100%;
+    background-color: #2E7D32; 
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* =====================================================
+   Navigation Toolbar
+===================================================== */
 .greenToolbar {
     background-color: green;
     color: white;
     padding: 10px;
-    height:200px;
+    height: 60px;
     width: 100%;
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
 }
 
-
 #page {
-    margin-top: 60px; 
+    margin-top: 60px; /* Adjusted to avoid overlap with the fixed toolbar */
 }
 
-/* Body Adjustments */
+/* =====================================================
+   Body Adjustments
+===================================================== */
 body {
-    padding-top: 60px; 
+    padding-top: 60px;
     overflow-x: hidden;
 }
 
-/* Button Styles */
-.greenButton {
-    color: white;
+/* =====================================================
+   Button Styles
+===================================================== */
+.greenButton, .wishlistButton {
     font-weight: bold;
 }
 
-.wishlistButton {
-    color: green;
-    font-weight: bold;
+.greenButton {
+    color: white;
 }
-/* Promotional Banner */
+
+.wishlistButton {
+    color: red;
+}
+
+.greenButton .sapMBtnIcon, .wishlistButton .sapMBtnIcon {
+    color: white !important;
+}
+
+/* =====================================================
+   Promotional Banner
+===================================================== */
 .promoCarousel {
     width: 100%;
     max-width: 1280px;
@@ -120,7 +134,9 @@ body {
     object-fit: cover;
 }
 
-/* Promotional Section */
+/* =====================================================
+   Promotional Section
+===================================================== */
 .promoSection {
     text-align: center;
     height: 80px;
@@ -145,7 +161,9 @@ body {
     cursor: pointer;
 }
 
-/* Categories */
+/* =====================================================
+   Categories
+===================================================== */
 .categoryBox {
     display: flex;
     justify-content: space-around;
@@ -162,7 +180,9 @@ body {
     cursor: pointer;
 }
 
-/* Bestsellers Section */
+/* =====================================================
+   Bestsellers Section
+===================================================== */
 .bestsellersSection {
     background: rgb(241, 249, 250);
     padding: 20px;
@@ -182,20 +202,21 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 50px;
+    gap: 20px;
     max-width: 1280px;
     margin: auto;
 }
 
-/* Book Tile Styling */
-
+/* =====================================================
+   Book Tile Styling
+===================================================== */
 .bookTile {
     background: rgb(207, 250, 248);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 180px;  
+    width: 180px;
     height: 380px;
     display: flex;
     flex-direction: column;
@@ -204,38 +225,31 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-
-.customRating .sapMRI .sapUiIcon {
-    color: gold !important;
-    fill: gold !important;
-}
-
 .bookTile:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-
 .bookImage {
     border-radius: 5px;
-    width: 150px;  
+    width: 150px;
     height: 200px;
     object-fit: cover;
 }
 
+.bookTitle, .bookAuthor, .bookPrice {
+    text-align: center;
+}
 
 .bookTitle {
     font-weight: bold;
     font-size: 16px;
-    text-align: center;
     margin-top: 10px;
 }
 
 .bookAuthor {
     color: gray;
     font-size: 12px;
-    text-align: center;
 }
 
 .bookPrice {
@@ -245,103 +259,35 @@ body {
     margin-top: 5px;
 }
 
-.bookDetailsPage {
-    background: linear-gradient(to right, #f8f9fa, #eef1f5);
-}
-
-.bookDetailsContainer {
-    padding: 20px;
-}
-
-.bookLayout {
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-}
-
-.bookInfo {
-    max-width: 50%;
-}
-
-.bookTitle {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-.bookAuthor {
-    font-size: 18px;
-    color: #777;
-}
-
-.bookStock {
-    font-size: 16px;
-    color: #444;
-    margin-bottom: 10px;
-}
-
-.customRating {
-    color: #f4b400;
-}
-
-.actionButtons .sapMBtn {
-    margin-right: 10px;
-}
-
 .bookImageContainer {
-    text-align: center;
-}
-
-.bookImage {
-    border: 1px solid green;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.bestsellerTag {
-    font-size: 14px;
-    font-weight: bold;
-    color: #d35400;
-    margin-top: 10px;
-}
-.bookImageContainer {
-
     padding: 1rem;
-    margin-right: 2rem; 
+    margin-right: 2rem;
 }
 
 .bookInfoContainer {
     width: 50%;
 }
 
+/* =====================================================
+   Rating Indicator
+===================================================== */
+.customRating .sapMRI .sapUiIcon {
+    color: gold !important;
+    fill: gold !important;
+}
+
+/* =====================================================
+   FlexBox Adjustments
+===================================================== */
 .mainLayout {
     display: flex;
     justify-content: center;
     align-items: start;
 }
 
-
-.addToCartButton {
-    background-color:green;
-    color: white;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    width: 100%; 
-}
-
-
-.bestsellerFlexBox {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px; 
-    max-width: 1280px;
-    margin: auto;
-}
-
-
+/* =====================================================
+   Media Queries
+===================================================== */
 @media (max-width: 768px) {
     .bestsellerFlexBox {
         justify-content: center;
@@ -359,12 +305,59 @@ body {
     }
 }
 
+/* =====================================================
+   Add to Cart and Wishlist
+===================================================== */
+.addToCartButton, .wishlistButton {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+}
 
-/* Border for each book tile */
+/* =====================================================
+   Border for each book tile
+===================================================== */
 .borderedTile {
     border: 1px solid green;
     padding: 10px;
-    margin: 50px;
+    margin: 20px;
     border-radius: 5px;
 }
 
+/* =====================================================
+   Book Details Page
+===================================================== */
+.bookDetailsPage {
+    background-color: #f8f8f8;
+    padding: 20px;
+    max-width: 1280px;
+    margin: auto;
+}
+
+/* =====================================================
+   Book Title
+===================================================== */
+.bookTitleMain {
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =====================================================
+   Book Availability
+===================================================== */
+.bookAvailabilityText {
+    font-size: 16px;
+    color: green;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}

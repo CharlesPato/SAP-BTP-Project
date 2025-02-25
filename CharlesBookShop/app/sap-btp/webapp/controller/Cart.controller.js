@@ -6,14 +6,34 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("sapbtp.controller.Cart", {
-        
-        // ------------------------- Initialization -------------------------
+        // =====================================================
+        // Lifecycle Methods
+        // =====================================================
         onInit: function () {
+            this._initializeSession();
             this.getView().setModel(new JSONModel(), "cartModel");
             this._loadCart();
         },
 
-        // ------------------------- Load Cart -------------------------
+        _initializeSession: function () {
+            var sessionModel = sap.ui.getCore().getModel("sessionModel");
+            if (!sessionModel) {
+                var storedSession = localStorage.getItem("sessionData");
+                try {
+                    storedSession = storedSession ? JSON.parse(storedSession) : { isLoggedIn: false, LoggedId: 0, user: {} };
+                } catch (error) {
+                    console.error("Error parsing session data:", error);
+                    storedSession = { isLoggedIn: false, LoggedId: 0, user: {} };
+                }
+                sessionModel = new JSONModel(storedSession);
+                sap.ui.getCore().setModel(sessionModel, "sessionModel");
+            }
+            this.getView().setModel(sessionModel, "sessionModel");
+        },
+
+        // =====================================================
+        // Load Cart Data
+        // =====================================================
         _loadCart: function () {
             var that = this;
             $.ajax({
@@ -59,24 +79,24 @@ sap.ui.define([
             });
         },
 
-        // ------------------------- Quantity Management -------------------------
+        // =====================================================
+        // Quantity Management
+        // =====================================================
         onIncreaseQuantity: function (oEvent) {
-            let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
-            let oCartItem = oBindingContext.getObject();
-            let oModel = this.getView().getModel("cartModel");
-
-            oCartItem.quantity += 1;
-            oCartItem.totalCost = oCartItem.stock * oCartItem.quantity;
-            oModel.refresh(true);
+            this._updateQuantity(oEvent, 1);
         },
 
         onDecreaseQuantity: function (oEvent) {
+            this._updateQuantity(oEvent, -1);
+        },
+
+        _updateQuantity: function (oEvent, change) {
             let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
             let oModel = this.getView().getModel("cartModel");
 
-            if (oCartItem.quantity > 1) {
-                oCartItem.quantity -= 1;
+            if (oCartItem.quantity + change > 0) {
+                oCartItem.quantity += change;
                 oCartItem.totalCost = oCartItem.stock * oCartItem.quantity;
                 oModel.refresh(true);
             }
@@ -94,10 +114,8 @@ sap.ui.define([
                     }
 
                     let cartId = data.value[0].ID;
-                    let updateUrl = `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`;
-
                     $.ajax({
-                        url: updateUrl,
+                        url: `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`,
                         method: "PATCH",
                         contentType: "application/json",
                         data: JSON.stringify({
@@ -105,7 +123,6 @@ sap.ui.define([
                             totalCost: oCartItem.stock * oCartItem.quantity
                         }),
                         success: function () {
-                            location.reload();
                             MessageToast.show("Cart updated successfully.");
                         },
                         error: function (xhr) {
@@ -127,7 +144,9 @@ sap.ui.define([
             oModel.setProperty("/TotalCost", parseFloat(totalCost).toFixed(2));
         },
 
-        // ------------------------- Cart Actions -------------------------
+        // =====================================================
+        // Cart Actions
+        // =====================================================
         onUpdateCartPress: function (oEvent) {
             let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
@@ -142,11 +161,11 @@ sap.ui.define([
             let oBindingContext = oEvent.getSource().getBindingContext("cartModel");
             let oCartItem = oBindingContext.getObject();
             let book_ID = oCartItem.book_ID;
+
             if (!book_ID) {
                 MessageToast.show("Error: Book ID missing.");
                 return;
             }
-            let that = this;
 
             $.ajax({
                 url: `http://localhost:4004/odata/v4/catalog/Cart?$filter=book_ID eq ${book_ID}`,
@@ -162,9 +181,8 @@ sap.ui.define([
                         url: `http://localhost:4004/odata/v4/catalog/Cart(${cartId})`,
                         method: "DELETE",
                         success: function () {
-                            location.reload();
                             MessageToast.show("Book removed from Cart!");
-                           
+                            location.reload();
                         },
                         error: function (xhr) {
                             console.error("Error removing item from cart:", xhr.responseText);
@@ -177,10 +195,39 @@ sap.ui.define([
             });
         },
 
-        // ------------------------- Navigation -------------------------
-        onHomePress: function () { this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP"); location.reload(); },
-        onWishlistPress: function () { this.getOwnerComponent().getRouter().navTo("Wishlist"); location.reload(); },
-        onCartPress: function () { this.getOwnerComponent().getRouter().navTo("Cart"); location.reload(); },
-        onAccountPress: function () { this.getOwnerComponent().getRouter().navTo("Account"); location.reload(); },
+        // =====================================================
+        // Navigation Methods
+        // =====================================================
+        _restoreSession: function () {
+            var storedSession = localStorage.getItem("sessionData");
+            if (storedSession) {
+                var sessionModel = new JSONModel(JSON.parse(storedSession));
+                sap.ui.getCore().setModel(sessionModel, "sessionModel");
+                this.getView().setModel(sessionModel, "sessionModel");
+            }
+        },
+
+        onHomePress: function () {
+            this._restoreSession();
+            this.getOwnerComponent().getRouter().navTo("RouteSAP-BTP");
+        },
+
+        onWishlistPress: function () {
+            this._restoreSession();
+            this.getOwnerComponent().getRouter().navTo("Wishlist");
+            location.reload();
+        },
+
+        onCartPress: function () {
+            this._restoreSession();
+            this.getOwnerComponent().getRouter().navTo("Cart");
+            location.reload();
+        },
+
+        onAccountPress: function () {
+            this._restoreSession();
+            this.getOwnerComponent().getRouter().navTo("Account");
+            location.reload();
+        }
     });
 });

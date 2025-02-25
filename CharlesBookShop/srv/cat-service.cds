@@ -6,6 +6,11 @@ service CatalogService {
   entity Ratings as projection on my.Ratings;
   entity Wishlist as projection on my.Wishlist;
   entity Cart as projection on my.Cart;
+  entity Users as projection on my.Users;
 
-  function getBookByID(bookId: Integer) returns Books;// Getting Single Book by ID
+
+  action login(email: String, password: String) returns Users;
+  action logout() returns String;
+
+  function getBookByID(bookId: Integer) returns Books;
 }
