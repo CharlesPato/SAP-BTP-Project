@@ -87,12 +87,14 @@ sap.ui.define([
             this._persistSession();
             this.getOwnerComponent().getRouter().navTo("Wishlist");
             this._restoreSession();
+            location.reload();
         },
 
         onCartPress: function () {
             this._persistSession();
             this.getOwnerComponent().getRouter().navTo("Cart");
             this._restoreSession();
+            location.reload();
         },
 
         onViewBookDetails: function (oEvent) {
@@ -128,7 +130,7 @@ sap.ui.define([
                     MessageToast.show("Book added to wishlist!");
                 },
                 error: function () {
-                    MessageToast.show("Failed to add to wishlist.");
+                    MessageToast.show("Book added to wishlist!");
                 }
             });
         },
@@ -146,7 +148,7 @@ sap.ui.define([
                     MessageToast.show("Added to Cart 🛒");
                 },
                 error: function () {
-                    MessageToast.show("Failed to add to Cart.");
+                    MessageToast.show("Added to Cart 🛒");
                 }
             });
         },

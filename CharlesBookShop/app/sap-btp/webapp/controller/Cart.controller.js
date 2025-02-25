@@ -123,6 +123,7 @@ sap.ui.define([
                             totalCost: oCartItem.stock * oCartItem.quantity
                         }),
                         success: function () {
+                            location.reload();
                             MessageToast.show("Cart updated successfully.");
                         },
                         error: function (xhr) {

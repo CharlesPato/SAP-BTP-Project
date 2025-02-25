@@ -74,17 +74,21 @@ sap.ui.define([
         onMoveToCartPress: function (oEvent) {
             var that = this;
             var oItem = oEvent.getSource().getParent().getParent();
-            var oBook = oItem.getBindingContext("wishlistModel").getObject();
-
+            var oBindingContext = oItem.getBindingContext("wishlistModel");
+            var oBook = oBindingContext.getObject();
+        
             if (!oBook || !oBook.ID) {
                 MessageToast.show("Invalid Book ID.");
                 return;
             }
-            that.onAddToCartPress(oBook.ID, function () {
+        
+            console.log("Moving to Cart:", oBook.ID);
+        
+          
+            that.onAddToCartPress(oBook.ID, function (success) {
                 that._removeFromWishlist(oBook.ID);
             });
         },
-
         onAddToCartPress: function (bookId, callback) {
             $.ajax({
                 url: "http://localhost:4004/odata/v4/catalog/Cart",
