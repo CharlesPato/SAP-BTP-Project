@@ -51,11 +51,22 @@ This project features:
 - **Docker support** for containerized deployment.
 - **SAP Cloud Application Programming (CAP) Model** for enhanced backend capabilities.
 
+#### Pre-requisites:
+
+1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
+2. VsCode
+3. PostgreSQL(PgAmdin)
+4. Docker
+5. Node.js
+6. Cloudinary
+7. GitHub Account
+
 ## Technologies Used
 - **Frontend**: SAP UI5, JavaScript
 - **Backend**: Node.js, Express.js, SAP CAP
 - **Database**: PostgreSQL
 - **Containerization**: Docker, Docker Compose
+- **VC** GitHub
 
 ## Installation
 
@@ -93,11 +104,11 @@ This project features:
 1. Ensure PostgreSQL is installed on your system.
 2. Create a new database:
    ```sh
-   createdb charlesbookshop
+   create database charlesbookstore
    ```
 3. Apply migrations (if applicable):
    ```sh
-   npm run migrate
+   cds deploy
    ```
 
 ### Docker Setup
@@ -119,15 +130,12 @@ This project features:
 This project includes several SAP Cloud Application Programming Model (CAP) libraries:
 - **@sap/cds**: Core Data Services framework for SAP CAP.
 - **@sap/cds-dk**: Development kit for SAP CAP.
-- **@sap/cds-mtx**: Multitenancy extensions for SAP CAP.
 - **@sap/cds-pg**: PostgreSQL adapter for SAP CAP.
-- **@sap/xssec**: Security utilities for authentication and authorization.
-- **@sap/xsenv**: Environment variable utilities for SAP BTP services.
-- **@sap/hana-client**: Database driver for SAP HANA integration (if applicable).
+
 
 To install these libraries:
 ```sh
-npm install @sap/cds @sap/cds-dk @sap/cds-mtx @sap/cds-pg @sap/xssec @sap/xsenv @sap/hana-client
+npm install @sap/cds @sap/cds-dk  @sap/cds-pg 
 ```
 
 ## Usage
@@ -169,10 +177,4 @@ npm install @sap/cds @sap/cds-dk @sap/cds-mtx @sap/cds-pg @sap/xssec @sap/xsenv 
 
 http://localhost:4004/sap-btp/webapp/index.html
 
-#### Pre-requisites:
-
-1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
-
-## License
-This project is licensed under the MIT License.
 
