@@ -36,45 +36,92 @@ sap.ui.define([
         _loadBookDetails: function (bookId) {
             var oView = this.getView();
             var sBookUrl = `http://localhost:4004/odata/v4/catalog/getBookByID(bookId=${bookId})`;
-
+        
             $.ajax({
                 url: sBookUrl,
                 type: "GET",
                 contentType: "application/json",
                 success: function (oBookData) {
+                 
                     if (oBookData) {
-                        oView.byId("imgBookCover").setSrc(oBookData.imageUrl);
-                        oView.byId("titleBook").setText(oBookData.title);
-                      
-                      
-                        if (oBookData.author_ID) {
-                            this._fetchAuthorName(oBookData.author_ID, function (authorName) {
-                                oView.byId("txtBookAuthor").setText("by " + (authorName || "Unknown"));
-                            });
+                        let avgRating = oBookData.avgRating || 0; 
+                        let convertedRating = avgRating / 2;
+        
+                       
+                        oView.setModel(new sap.ui.model.json.JSONModel(oBookData), "bookData");
+        
+                        oView.byId("imgBookCover").setSrc(oBookData.imageUrl);  
+                        oView.byId("titleBook").setText(oBookData.title);       
+                        oView.byId("txtAuthor").setText(oBookData.authorName);   
+                        oView.byId("txtAvailable").setText("NOW AVAILABLE");     
+        
+                       
+                        oView.byId("ratingIndicator").setValue(convertedRating);
+                        oView.byId("txtAvgRating").setText(`(${avgRating}/10)`); 
+        
+                        if (oBookData.reviews && oBookData.reviews.length > 0) {
+                           
+                            var oReviewModel = new sap.ui.model.json.JSONModel(oBookData.reviews);
+                            oView.setModel(oReviewModel, "reviews");
+        
+                          
+                            oView.byId("vboxReviews").setVisible(true);
                         } else {
-                            oView.byId("txtBookAuthor").setText("by Unknown");
+                            
+                            oView.byId("vboxReviews").setVisible(false);
                         }
-
-                        this._fetchBookReviews(bookId, function (reviewsText) {
-                            oView.byId("reviewList").destroyItems();
-                            reviewsText.forEach(review => {
-                                oView.byId("reviewList").addItem(new sap.m.StandardListItem({
-                                    title: review.reviewer,
-                                    description: review.review
-                                }));
-                            });
-                        });
                     }
                 }.bind(this),
                 error: function () {
-                    MessageToast.show("Failed to load book details.");
+                 
+                    sap.m.MessageToast.show("Failed to load book details.");
                 }
             });
+        }, onAddReview: function () {
+       
+            var oDialog = this.byId("ratingDialog");
+            if (!oDialog) {
+                oDialog = sap.ui.xmlfragment(this.getView().getId(), "sapbtp.view.fragments.RatingDialog", this);
+                this.getView().addDependent(oDialog);
+            }
+            oDialog.open();
         },
 
-        
+        onSubmitRating: function () {
+            var oView = this.getView();
+            var rating = this.byId("newRatingIndicator").getValue();
+            var review = this.byId("reviewTextArea").getValue();
+            var bookId = oView.getModel("bookData").getProperty("/ID");
 
-       
+            if (!review || !rating) {
+                MessageToast.show("Please provide a rating and review.");
+                return;
+            }
+
+           
+            $.ajax({
+                url: `http://localhost:4004/odata/v4/catalog/Ratings`,
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    rating: rating*2,
+                    review: review,
+                    book_ID: bookId
+                }),
+                success: function () {
+                    MessageToast.show("Thank you for your review!");
+                    oView.byId("ratingDialog").close();
+                    this._loadBookDetails(bookId); 
+                    location.reload();
+                }.bind(this),
+                error: function () {
+                    location.reload();
+                    MessageToast.show("Thank you for your review!");
+                }
+            });
+            
+        }
+        ,
 
         // =====================================================
         // Wishlist Methods
@@ -95,6 +142,7 @@ sap.ui.define([
                 data: JSON.stringify({ username: username, book_ID: bookId }),
                 success: function () {
                     MessageToast.show("Book added to wishlist!");
+                    
                 },
                 error: function () {
                     MessageToast.show("Failed to add book to wishlist.");

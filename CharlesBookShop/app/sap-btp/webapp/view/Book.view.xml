@@ -4,7 +4,7 @@
     xmlns="sap.m">
 
     <!-- Book Details Page -->
-    <Page id="pgBookDetails" title="{title}" class="bookDetailsPage">
+    <Page id="pgBookDetails" title="{bookData>/title}" class="bookDetailsPage">
         
         <!-- Navigation Toolbar -->
         <Toolbar id="navToolbar2" class="greenToolbar">
@@ -18,18 +18,82 @@
 
                 <!-- Book Image Section -->
                 <VBox id="vboxBookImage" class="bookImageContainer">
-                    <Image id="imgBookCover" src="" width="300px" height="450px" class="bookImage"/>
+                    <Image id="imgBookCover" src="{bookData>/imageUrl}" width="300px" height="450px" class="bookImage"/>
                 </VBox>
 
                 <!-- Book Information Section -->
                 <VBox id="vboxBookInfo" class="bookInfoContainer">
-                    <!-- Book Title placed at the top -->
-                    <Title id="titleBook" text="{title}" level="H1" class="bookTitleMain" />
+                    <!-- Book Title and Author Name -->
+                    <Title id="titleBook" text="{bookData>/title}" level="H1" class="bookTitleMain" />
+                    <Text id="txtAuthor" text="{bookData>/authorName}" class="bookAuthorText" />
 
                     <Text id="txtAvailable" text="NOW AVAILABLE" class="bookAvailabilityText"/>
+                    
+                    <!-- Rating and Actions Section -->
+                    <HBox id="_IDGensHBox1" alignItems="Center" justifyContent="Start">
+                    <RatingIndicator 
+                        id="_IDGenRastingIndicator" 
+                        value="{= ${bookData>/avgRating} / 2 }" 
+                        maxValue="5" 
+                        enabled="false" 
+                        visualMode="Half"  
+                        class="customRating"/>
+                    <Text 
+                        id="_IDGensText5" 
+                        text="{= ' (' + ${bookData>/avgRating} + ')' }"/>
+                </HBox>
+
+
+
+
+                    <!-- Reviews Section -->
+                    <VBox id="vboxReviews" class="reviewsContainer">
+                        <Text id="_IDGenText6" text="Reviews" class="reviewsTitle"/>
+                        <List id="reviewsList" items="{
+                            path: 'bookData>/reviews'
+                        }">
+                            <items>
+                                <CustomListItem id="_IDGenCustomListItem3" class="customListItem">
+                                    <VBox id="_IDGenVBox" class="vboxReviewContainer">
+                                        <Text id="_IDGenText10" text="{bookData>review}" class="reviewText"/>
+                                        <Text id="_IDGenText11" text="Rating: {bookData>rating}" class="reviewRating"/>
+                                        <!-- Optionally add Review Date if available -->
+                                        <Text id="reviewDate" text="{bookData>date}" class="reviewDate"/>
+                                    </VBox>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </VBox>
+                                <!-- Add Rating and Review Dialog -->
+                 <Dialog id="ratingDialog" title="Add Review" class="customDialog">
+                    <VBox id="_IDGenVBox6" class="dialogContent">
+                        <!-- Rating Input -->
+                        <RatingIndicator 
+                            id="newRatingIndicator" 
+                            maxValue="5" 
+                            class="customRating"
+                            visualMode="Half"/>
+
+                        <!-- Review Input -->
+                        <TextArea 
+                            id="reviewTextArea" 
+                            placeholder="Write your review here..." 
+                            rows="4" 
+                            class="customTextArea"/>
+
+                        <!-- Action Buttons -->
+                        <HBox id="buttonContainer" class="dialogButtonContainer" justifyContent="End">
+                            <Button id="btnCancel" text="Cancel" type="Transparent" press=".onCancelRating"/>
+                            <Button id="btnSubmit" text="Submit" type="Emphasized" press="onSubmitRating"/>
+                        </HBox>
+                    </VBox>
+                </Dialog>
+
+
 
                     <!-- Action Buttons (Buy Now and Wishlist) -->
                     <HBox id="hboxActionButtons" class="actionButtons" justifyContent="Start">
+                       <Button id="btnAddReview" text="Add Review" press="onAddReview"/>
                         <Button id="btnBuyNow" icon="sap-icon://cart" type="Emphasized" text="Buy Now" press="onBuyNow"/>
                         <Button id="btnWishlist" icon="sap-icon://heart" type="Transparent" text="Wishlist" press="onAddToWishlist"/>
                     </HBox>

@@ -12,5 +12,13 @@ service CatalogService {
   action login(email: String, password: String) returns Users;
   action logout() returns String;
 
-  function getBookByID(bookId: Integer) returns Books;
+   function getBookByID(bookId: Integer) returns {
+    ID: Integer;
+    title: String;
+    authorName: String;
+    avgRating: String;
+    reviews: Association to many Ratings; 
+    imageUrl: String;
+    stock: Integer;
+  };
 }

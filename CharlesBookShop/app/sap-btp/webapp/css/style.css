@@ -50,6 +50,93 @@ html, body {
 }
 
 
+/* Reviews Section Styles */
+.reviewsContainer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.reviewsTitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+}
+
+.reviewText {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
+
+.reviewRating {
+    font-size: 0.9em;
+    color: #888;
+    padding-left: 10px;
+    margin-top: -5px;
+}
+
+.customListItem {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.customListItem:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.customDialog {
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 350px;
+}
+
+.dialogContent {
+    padding: 10px 15px;
+    gap: 15px; 
+}
+
+.customRating {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.customTextArea {
+    width: 100%;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+.dialogButtonContainer {
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.vboxReviewContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewDate {
+    font-size: 0.8em;
+    color: #777;
+    padding-left: 10px;
+}
+
+.reviewsContainer .reviewRating {
+    font-weight: bold;
+    color: #ffcc00;  
+}
+
+
 .loginTitle {
     font-size: 20px;
     font-weight: bold;
@@ -66,8 +153,7 @@ html, body {
 
 .loginButton {
     width: 100%;
-    background-color: #2E7D32; 
-    color: white;
+    background-color: green; 
     border-radius: 5px;
     margin-top: 10px;
 }

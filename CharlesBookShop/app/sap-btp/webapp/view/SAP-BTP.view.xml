@@ -11,7 +11,7 @@
         <core:Fragment fragmentName="sapbtp.view.fragments.NavToolbar" type="XML"/>
 
         <!-- Promotional Banner Carousel -->
-        <Carousel id="promoCarousel" height="200px" class="promoCarousel">
+        <Carousel id="promoCarousel" height="250px" class="promoCarousel">
             <Image id="banner1" src="images/Book1.png" class="carouselImage"/>
             <Image id="banner2" src="images/Book2.png" class="carouselImage"/>
             <Image id="banner3" src="images/Book3.png" class="carouselImage"/>

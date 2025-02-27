@@ -48,23 +48,100 @@ module.exports = (srv) => {
     srv.on('getBookByID', async (req) => {
         const { bookId } = req.data;
         if (!bookId) return req.error(400, "Book ID is required.");
-
+    
+        // Fetch the book details by ID
         const book = await cds.run(SELECT.one.from('my.bookshop.Books').where({ ID: bookId }));
         if (!book) return req.error(404, `Book with ID ${bookId} not found.`);
-
+        console.log("Fetched Book:", book);
+    
+        // Fetch the related ratings for the book
         const ratings = await cds.run(SELECT.from('my.bookshop.Ratings').where({ book_ID: bookId }));
+        console.log("Fetched Ratings:", ratings);
+    
+        // Calculate the average rating (if ratings exist)
+        const avgRating = ratings.length
+            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
+            : '0.0'; // Ensure it's a string for consistency with the response
+        console.log("Calculated avgRating:", avgRating);
+    
+        // Fetch the author details based on the author_ID
         const author = await cds.run(SELECT.one.from('my.bookshop.Authors').where({ ID: book.author_ID }));
-
+        console.log("Fetched Author:", author);
+    
+        // Add the necessary details to the book object
         book.authorName = author ? author.name : "Unknown Author";
-        book.reviews = ratings.map(r => r.review);
-        book.avgRating = ratings.length ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1) : 0;
-
-        if (book.imageUrl) {
-            book.imageUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/books/${book.imageUrl}`;
-        }
-
-        return book;
+        book.reviews = ratings.map(r => ({ review: r.review, rating: r.rating, id: r.ID })); // Returning full Ratings objects
+        book.avgRating = avgRating; // Average rating
+        book.imageUrl = book.imageUrl ? `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/books/${book.imageUrl}` : '';
+    
+        // Log what is being returned (for debugging)
+        console.log("Returning Response:", {
+            ID: book.ID,
+            title: book.title,
+            authorName: book.authorName,
+            avgRating: book.avgRating,
+            reviews: book.reviews,
+            imageUrl: book.imageUrl,
+            stock: book.stock
+        });
+    
+        // Return the full response with necessary fields
+        return {
+            "@odata.context": "$metadata#Books/$entity", // Ensure OData context is set
+            ID: book.ID,
+            title: book.title,
+            authorName: book.authorName,  // Add author name to the response
+            avgRating: book.avgRating,
+            reviews: book.reviews,        // Add reviews to the response
+            imageUrl: book.imageUrl,
+            stock: book.stock
+        };
     });
+    srv.on('CREATE', 'Ratings', async (req) => {
+        const { rating, review, book_ID } = req.data;
+    
+        if (!rating || !review || !book_ID) {
+            return req.error(400, "Rating, review, and book ID are required.");
+        }
+    
+     
+        const bookExists = await cds.run(SELECT.one.from('my.bookshop.Books').where({ ID: book_ID }));
+        if (!bookExists) {
+            return req.error(404, `Book with ID ${book_ID} not found.`);
+        }
+    
+   
+        const lastRating = await cds.run(SELECT.one.from('my.bookshop.Ratings').orderBy({ ID: 'desc' }).limit(1));
+        const nextId = lastRating ? lastRating.ID + 1 : 28; 
+    
+   
+        const result = await cds.run(
+            INSERT.into('my.bookshop.Ratings').entries({
+                ID: nextId,  
+                rating,
+                review,
+                book_ID
+            })
+        );
+    
+        
+        const ratings = await cds.run(SELECT.from('my.bookshop.Ratings').where({ book_ID }));
+        const avgRating = ratings.length
+            ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
+            : 0;
+    
+       
+        await cds.run(
+            UPDATE('my.bookshop.Books')
+                .set({ avgRating })
+                .where({ ID: book_ID })
+        );
+    
+        return result;
+    });
+    
+    
+
      // Add book to wishlist
   srv.on('CREATE', 'Wishlist', async (req) => {
     const { username, book_ID } = req.data;
